@@ -84,16 +84,56 @@ export default {
     };
   },
   methods: {
-    verifyAuth: function () {},
-    successAlert: function(){},
+    verifyAuth: function () {
+      this.is_auth = localStorage.getItem("is_auth");
+      if (this.is_auth) {
+        this.loadTravelHome();
+      } else {
+        this.loadLogin();
+      }
+    },
+    successAlert: function(){
+      this.success= true
+    },
     getUser: function () {},
-    logout: function () {},
-    loadLogin: function () {},
-    loadRegister: function () {},
-    loadEditTravel: function () {},
-    loadCreateTravel: function () {},
-    loadTravelHome: function () {},
-    successLogin: function (response) {},
+    logout: function () {
+      this.is_auth = false;
+      localStorage.clear();
+      this.verifyAuth();
+    },
+    loadLogin: function () {
+      if (!this.is_auth) this.$router.push({ name: "logIn" });
+      else {
+        this.loadTravelHome();
+      }
+    },
+    loadRegister: function () {
+      this.$router.push({ name: "register" });
+    },
+    loadEditTravel: function () {
+      if (this.is_auth) this.$router.push({ name: "editTravel" });
+      else {
+        this.loadLogin();
+      }
+    },
+    loadCreateTravel: function () {
+      if (this.is_auth) this.$router.push({ name: "createTravel" });
+      else {
+        this.loadLogin();
+      }
+    },
+    loadTravelHome: function () {
+      if (this.is_auth) this.$router.push({ name: "travels_home" });
+      else {
+        this.loadLogin();
+      }
+    },
+    successLogin: function (response) {
+      this.is_auth = true;
+      localStorage.setItem("is_auth", true); //Save credentials in localStorage
+      localStorage.setItem("token", response.data.key);
+      this.verifyAuth();
+    },
   },
   created: function () {
     this.verifyAuth();
