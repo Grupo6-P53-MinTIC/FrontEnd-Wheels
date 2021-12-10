@@ -1,30 +1,25 @@
-import { createApp }                                 from 'vue'
-import App                                           from './App.vue'
-import router                                        from './router'
-import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client/core'
-import { createdApolloProvider }                     from '@vue/apollo-option'
-import {setContext}                                  from 'apollo-link-context'
-
-// link appi-gateway
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
+import { createApolloProvider } from '@vue/apollo-option'
+import { setContext } from 'apollo-link-context'
 const httpLink = createHttpLink({
-    uri:'https://api-gateway-wheels.herokuapp.com/'
+    uri: 'https://mision-tic-api-gateway.herokuapp.com/',
 })
-const authLink = setContext((_,{header})=>{
+const authLink = setContext((_, { headers }) => {
     return {
-        header:{
-            ...header,
-            "Authorization":localStorage.getItem("token") || ""
+        headers: {
+            ...headers,
+            "Authorization": localStorage.getItem("token_access") || ""
         }
     }
-});
-
+})
 const apolloClient = new ApolloClient({
-    link : authLink.concat(httpLink),
+    link: authLink.concat(httpLink),
     cache: new InMemoryCache()
-});
-
-const apolloProvider = new createdApolloProvider({
+})
+const apolloProvider = new createApolloProvider({
     defaultClient: apolloClient
 })
-
 createApp(App).use(router).use(apolloProvider).mount('#app')

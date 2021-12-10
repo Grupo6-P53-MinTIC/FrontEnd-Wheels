@@ -118,7 +118,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "editTravel",
   data: function () {
@@ -142,63 +141,10 @@ export default {
     };
   },
   methods: {
-    getUser: function () {
-      let url = "https://wheelsapp.herokuapp.com/rest-auth/user/";
-      let config = {
-        headers: { Authorization: `Token ${localStorage.getItem("token")}` },
-      };
-      axios
-        .get(url, config)
-        .then((res) => {
-          this.idUser = res.data.pk;
-          this.getTravel(this.idUser);
-        })
-        .catch((e) => console.log(e));
-    },
-    getTravel: function (id) {
-      let url = `https://wheelsapp.herokuapp.com/travel_by/${id}`;
-      let config = {
-        headers: { Authorization: `Token ${localStorage.getItem("token")}` },
-      };
-      axios
-        .get(url, config)
-        .then((res) => {
-          this.travels = res.data;
-          console.log(res.data);
-        })
-        .catch((e) => console.log(e));
-    },
-    editTravel: function () {
-      console.log('Data travel from editTravel',this.dataTravel);
-      let url = `https://wheelsapp.herokuapp.com/travel/${this.travels[0].id}`;
-      let body = this.dataTravel;
-      let config = {
-        headers: { Authorization: `Token ${localStorage.getItem("token")}` },
-      };
-      axios
-        .put(url, body, config)
-        .then((result) => {
-          this.$emit("success", result);
-        })
-        .catch((error) => {
-          this.error = true;
-        });
-    },
-    deleteTravel: function (id){
-      let url = `https://wheelsapp.herokuapp.com/travel/${id}`;
-      let config = {
-        headers: { Authorization: `Token ${localStorage.getItem("token")}` },
-      };
-      axios
-        .delete(url, config)
-        .then((res) => {
-          this.travels = res.data;
-          console.log(res.data);
-          location.reload()
-          this.$router.go(0)
-        })
-        .catch((e) => console.log(e));
-    }
+    getUser: function () {},
+    getTravel: function (id) {},
+    editTravel: function () {},
+    deleteTravel: function (id){}
   },
   created: function () {
     this.getUser();
