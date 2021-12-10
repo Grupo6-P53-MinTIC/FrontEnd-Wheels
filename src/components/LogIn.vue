@@ -10,6 +10,7 @@
             v-model="user.username"
             type="text"
             placeholder="Nombre de usuario"
+            required="true"
           />
         </div>
         <div class="mb-3">
@@ -18,6 +19,7 @@
             v-model="user.password"
             type="password"
             placeholder="Contraseña"
+            required="true"
           />
         </div>
         <div class="mb-3">
@@ -40,7 +42,7 @@
 </template>
 
 <script>
-
+import gql from "graphql-tag";
 export default {
   name: "logIn",
   data: function () {
@@ -53,7 +55,34 @@ export default {
     };
   },
   methods: {
-    loginUser: function () {},
+    loginUser: async function () {
+      await this.$apollo
+      .mutate({
+        mutation: gql`
+          mutation Mutation($credentials: CredentialsInput) {
+          logIn(credentials: $credentials) {
+            refresh
+            access
+          }
+        }
+        `,
+        variables:{
+          credentials: this.user
+        }
+      })
+      .then((result) => {
+        console.log(result);
+        let dataLogin = {
+          username : this.user.username,
+          token_access : result.data.logIn.access,
+          token_refresh : result.data.logIn.refresh,
+        };
+        this.$emit("successLogin", result);
+      })
+      .catch((error) => {
+          console.error(error);
+        })
+    }
   },
   created: function () {},
 };

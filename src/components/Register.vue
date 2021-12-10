@@ -52,6 +52,38 @@
       </form>
     </div>
   </div>
+  <!-- <div class="register">
+    <div class="container_register">
+      <h2><b>Registrate</b></h2>
+      <form v-on:submit.prevent="registerUser">
+        <input type="email" placeholder="Correo electronico" />
+        <br />
+        <input
+          v-model="user.username"
+          type="text"
+          placeholder="Nombre de usuario"
+        />
+        <br />
+        <input
+          v-model="user.password1"
+          type="password"
+          placeholder="Contraseña"
+        />
+        <br />
+        <input
+          v-model="user.password2"
+          type="password"
+          placeholder="Confirmar contraseña"
+        />
+        <br />
+        <p>¿Ya tienes una cuenta?</p>
+        <p v-on:click="successRegister" ><a href="">Inicia sesión</a></p>
+        <br />
+        <p v-if="error" class="errorMessage">Las contraseñas no coinciden</p>
+        <button type="submit">Registrar</button>
+      </form>
+    </div>
+  </div> -->
 </template>
 
 <script>
@@ -69,9 +101,7 @@ export default {
     };
   },
   methods: {
-    registerUser: function () {
-      
-    },
+    registerUser: function () {},
   },
   created: function () {},
 };
