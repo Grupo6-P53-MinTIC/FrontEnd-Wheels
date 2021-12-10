@@ -42,9 +42,9 @@
               <i class="fas fa-pager"></i>
               Regístrate
             </button>
-            <button v-if="!is_auth" v-on:click="loadDetails">
+            <button  v-on:click="loadDetails">
               <i class="fas fa-pager"></i>
-              Detalle
+              Resumen de reserva
             </button>
             <button v-if="is_auth" v-on:click="loadCreateTravel">
               <i class="fas fa-plus-square"></i>
@@ -66,6 +66,7 @@
         v-on:loadRegister="loadRegister"
         v-on:successRegister="loadLogin"
         v-on:successLogin="successLogin"
+        v-on:loadDetails="loadDetails"
         v-on:success="successAlert"
         v-on:fail="fail"
       >

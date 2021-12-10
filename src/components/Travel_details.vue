@@ -1,115 +1,13 @@
 <template>
   <div class="bc_patron">
-    <div class="row bg-secondary bg-light bg-opacity-50" >
-      <div class="col-5 col-md-5  blur shadow-lg p-3 bg-body rounded border-dark me-3" v-for="travel in travels">
-        <form v-on:submit.prevent="editTravel(dataTravel.id)">
-          <table class="table table-striped table-hover">
-            <thead>
-              <tr>
-                <th scope="col" class="fs-5">{{ travel.from_place }} <i class="fas fa-long-arrow-alt-right"></i>
-            {{ travel.to_place }}</th>
-              <th class="text-end fs-5"><i @click="deleteTravel(travel.id)"  class="fas fa-trash" style="color:red"></i></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Desde</th>
-                <td v-if="!edit_from_place">{{ travel.from_place }}</td>
-                <td v-if="edit_from_place">
-                   <input id="from_place" type="text" v-model="travel.from_place"/>
-                </td>
-                <td>
-                  <i
-                    @click="edit_from_place = !edit_from_place;"
-                    class="fas fa-pen"
-                  ></i>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Hasta</th>
-                <td v-if="!edit_to_place">{{ travel.to_place }}</td>
-                <td v-if="edit_to_place">
-                  <input type="text" v-model="travel.to_place" />
-                </td>
-                <td>
-                  <i
-                    @click="edit_to_place = !edit_to_place;"
-                    class="fas fa-pen"
-                  ></i>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Pasa por</th>
-                <td v-if="!edit_pass_through">{{ travel.pass_through }}</td>
-                <td v-if="edit_pass_through">
-                  <input type="text" v-model="travel.pass_through" />
-                </td>
-                <td>
-                  <i
-                    @click="edit_pass_through = !edit_pass_through; "
-                    class="fas fa-pen"
-                  ></i>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Asientos disponibles</th>
-                <td v-if="!edit_seats">{{ travel.seats }}</td>
-                <td v-if="edit_seats">
-                  <input type="number" v-model="travel.seats" />
-                </td>
-                <td>
-                  <i @click="edit_seats = !edit_seats;" 
-                  class="fas fa-pen"></i>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Sale</th>
-                <td v-if="!edit_date_travel">{{ travel.date_travel }}</td>
-                <td v-if="edit_date_travel">
-                  <input
-                    v-model="travel.date_travel"
-                    type="datetime-local"
-                    id="meeting-time"
-                    name="meeting-time"
-                    min="2021-10-31T17:22:29Z"
-                    max="2030-10-31T17:22:29Z"
-                  />
-                </td>
-                <td>
-                  <i
-                    @click="edit_date_travel = !edit_date_travel;"
-                    class="fas fa-pen"
-                  ></i>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Precio</th>
-                <td v-if="!edit_price">COP ${{ travel.price }}</td>
-                <td v-if="edit_price">
-                  <input type="number" v-model="travel.price" />
-                </td>
-                <td>
-                  <i @click="edit_price = !edit_price" class="fas fa-pen"></i>
-                </td>
-              </tr>
-            </tbody>
-            <div class="text-center p-2"
-            @click=" dataTravel.date_travel = travel.date_travel;
-              dataTravel.pass_through = travel.pass_through;
-              dataTravel.to_place = travel.to_place;
-               dataTravel.seats = travel.seats;
-               dataTravel.from_place = travel.from_place;
-               dataTravel.price = travel.price;
-              "
-            >
-              <button class="btn btn-primary buttonR mt-4" type="submit">
-              <b>Guardar cambios</b>
-            </button>
-            </div>
-          </table>
-        </form>
-      </div>
-    </div>
+    <div class="card" style="width: 18rem;">
+    <img src="" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
   </div>
 </template>
 
