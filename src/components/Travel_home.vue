@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "travels_home",
   data: function () {
@@ -51,45 +50,10 @@ export default {
     };
   },
   methods: {
-    succes: function () {
-      this.$emit("success");
-    },
-    listTravels: function () {
-      let url = "https://wheelsapp.herokuapp.com/travels/";
-      let config = {
-        headers: { Authorization: `Token ${localStorage.getItem("token")}` },
-      };
-      axios
-        .get(url, config)
-        .then((res) => {
-          this.travels = res.data;
-          this.getUser(this.travels);
-          this.formatDate(this.travels);
-        })
-        .catch((e) => console.log(e));
-    },
-    getUser: function (travels) {
-      let url = `https://wheelsapp.herokuapp.com/rest-auth/user/`;
-      let config = {
-        headers: { Authorization: `Token ${localStorage.getItem("token")}` },
-      };
-      for (let i in travels) {
-        axios
-          .get(url, config)
-          .then((res) => {
-            this.travels[i].id_manager = res.data.username;
-            console.log(res.data);
-          })
-          .catch((e) => console.log(e));
-      }
-    },
-    formatDate: function (travels) {
-      for (let i in travels) {
-        var date = new Date(travels[i].date_travel);
-        let result = date.toLocaleString();
-        this.travels[i].date_travel = result;
-      }
-    },
+    succes: function () {},
+    listTravels: function () {},
+    getUser: function (travels) {},
+    formatDate: function (travels) {},
   },
   created: function () {
     this.listTravels();

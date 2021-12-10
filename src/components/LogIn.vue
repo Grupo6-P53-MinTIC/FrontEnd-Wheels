@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   name: "logIn",
@@ -54,27 +53,7 @@ export default {
     };
   },
   methods: {
-    loginUser: function () {
-      console.log(this.user);
-      let url = "https://wheelsapp.herokuapp.com/rest-auth/login/";
-      let body = this.user;
-      let config = { headers: {} };
-
-      axios
-        .post(url, body, config)
-        .then((result) => {
-          this.error = false;
-          console.log(result);
-          this.$emit("successLogin", result);
-        })
-        .catch((error) => {
-          if (error.response.status == 400) {
-            this.error = true;
-          } else {
-            alert("Fail");
-          }
-        });
-    },
+    loginUser: function () {},
   },
   created: function () {},
 };

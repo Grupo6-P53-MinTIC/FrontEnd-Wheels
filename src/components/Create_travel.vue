@@ -153,7 +153,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "createTravel",
   data: function () {
@@ -170,34 +169,8 @@ export default {
     };
   },
   methods: {
-    getUser: function () {
-      let url = "https://wheelsapp.herokuapp.com/rest-auth/user/";
-      let config = {
-        headers: { Authorization: `Token ${localStorage.getItem("token")}` },
-      };
-      axios
-        .get(url, config)
-        .then((res) => {
-          this.dataTravel.id_manager = res.data.pk;
-          this.createTravel();
-        })
-        .catch((e) => console.log(e));
-    },
-    createTravel: function () {
-      let url = `https://wheelsapp.herokuapp.com/travels/`;
-      let body = this.dataTravel;
-      let config = {
-        headers: { Authorization: `Token ${localStorage.getItem("token")}` },
-      };
-      axios
-        .post(url, body, config)
-        .then((result) => {
-            this.$emit("success", result);
-        })
-        .catch((error) => {
-          alert('Fail')
-        });
-    },
+    getUser: function () {},
+    createTravel: function () {},
   },
   created: function () {},
 };
