@@ -18,7 +18,7 @@ const routes = [
     component: editTravel
   },
   {
-    path: '/details',
+    path: '/travels/details',
     name: 'travelDetails',
     component: travelDetails
   },

@@ -42,6 +42,10 @@
               <i class="fas fa-pager"></i>
               Regístrate
             </button>
+            <button v-if="!is_auth" v-on:click="loadDetails">
+              <i class="fas fa-pager"></i>
+              Detalle
+            </button>
             <button v-if="is_auth" v-on:click="loadCreateTravel">
               <i class="fas fa-plus-square"></i>
               Publicar viaje
@@ -109,6 +113,9 @@ export default {
     },
     loadRegister: function () {
       this.$router.push({ name: "register" });
+    },
+    loadDetails: function () {
+      this.$router.push({ name: "travelDetails" });
     },
     loadEditTravel: function () {
       if (this.is_auth) this.$router.push({ name: "editTravel" });
