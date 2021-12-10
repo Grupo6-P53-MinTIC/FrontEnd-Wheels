@@ -50,17 +50,24 @@ export default {
     };
   },
   methods: {
-    succes: function () {},
+    succes: function () {
+      this.$emit("success");
+    },
     listTravels: function () {},
     getUser: function (travels) {},
-    formatDate: function (travels) {},
+    formatDate: function (travels) {
+      for (let i in travels) {
+        var date = new Date(travels[i].date_travel);
+        let result = date.toLocaleString();
+        this.travels[i].date_travel = result;
+      }
+    },
   },
   created: function () {
     this.listTravels();
   },
 };
 </script>
-
 
 <style >
 .title {
