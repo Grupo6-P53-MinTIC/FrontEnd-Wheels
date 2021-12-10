@@ -5,7 +5,7 @@ import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core
 import { createApolloProvider } from '@vue/apollo-option'
 import { setContext } from 'apollo-link-context'
 const httpLink = createHttpLink({
-    uri: 'https://mision-tic-api-gateway.herokuapp.com/',
+    uri: 'https://api-gateway-wheels.herokuapp.com/',
 })
 const authLink = setContext((_, { headers }) => {
     return {

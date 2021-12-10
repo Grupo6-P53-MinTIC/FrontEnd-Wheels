@@ -3,7 +3,10 @@
     <div class="title">
       <h1><b>Encuentra tu viaje</b></h1>
     </div>
-    <div v-for="travel in travels" class="col-md-4 mt-2">
+    <div
+      v-for="travel in getTravels" :key="travel.idTravel"
+      class="col-md-4 mt-2"
+    >
       <div class="card shadow-lg p-3 mb-5 bg-body rounded border-dark">
         <div class="card-header">
           <b>COP ${{ travel.price }}</b>
@@ -19,22 +22,22 @@
           <table class="table table-striped table-hover">
             <tbody>
               <tr>
-                <th scope="row">Pasa por: </th>
-                <td>{{ travel.pass_through }}</td>
-
+                <th scope="row">Pasa por:</th>
+                <td>{{ travel.passThrough }}</td>
               </tr>
               <tr>
                 <th scope="row">Conductor</th>
-                <td>{{ travel.id_manager }}</td>
+                <td>{{ travel.idDriver }}</td>
               </tr>
               <tr>
                 <th scope="row">Cuando?</th>
-                <td colspan="2">{{ travel.date_travel }}</td>
-
+                <td colspan="2">{{ travel.dateTravel.substring(0,10)+"\n"+ travel.dateTravel.substring(11,19)}}</td>
               </tr>
             </tbody>
           </table>
-          <button v-on:click="succes" class="btn btn-primary w-100 buttonR">Reservar</button>
+          <button v-on:click="succes" class="btn btn-primary w-100 buttonR">
+            Reservar
+          </button>
         </div>
       </div>
     </div>
@@ -42,25 +45,65 @@
 </template>
 
 <script>
+import gql from "graphql-tag";
+
 export default {
   name: "travels_home",
   data: function () {
     return {
-      travels: [],
+      //idDriver: localStorage.getItem("103") || "none",
+      getTravels: [],
     };
   },
-  methods: {
-    succes: function () {},
-    listTravels: function () {},
-    getUser: function (travels) {},
-    formatDate: function (travels) {},
+  apollo: {
+    /**getTravelByDriver: {
+      query: gql`
+        query ($idDriver:String!) {
+          getTravelByDriver(username: $username) {
+            idTravel    
+            idDriver    
+            nameDriver  
+            fromPlace   
+            toPlace     
+            passThrough 
+            published   
+            dateTravel  
+            seats       
+            price       
+          }
+        }
+      `,**/
+    getTravels: {
+      query: gql`
+      query GetTravels {
+        getTravels {
+          idTravel
+          idDriver
+          nameDriver
+          fromPlace
+          toPlace
+          passThrough
+          published
+          dateTravel
+          seats
+          price
+        }
+      }
+      `,
+      variables() {
+        return {
+          
+        };
+      },
+    },
+    
   },
+  
   created: function () {
-    this.listTravels();
-  },
+    this.$apollo.queries.getTravels.refetch();
+  }
 };
 </script>
-
 
 <style >
 .title {
