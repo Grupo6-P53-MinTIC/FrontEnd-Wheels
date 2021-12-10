@@ -4,6 +4,7 @@ import register from './components/Register.vue'
 import editTravel from './components/Edit_travel.vue'
 import createTravel from './components/Create_travel.vue'
 import travels_home from './components/Travel_home.vue'
+import travelDetails from './components/Travel_details.vue'
 
 const routes = [
   {
@@ -15,6 +16,11 @@ const routes = [
     path: '/travels/edit',
     name: 'editTravel',
     component: editTravel
+  },
+  {
+    path: '/details',
+    name: 'travelDetails',
+    component: travelDetails
   },
   {
     path: '/travels/create',
