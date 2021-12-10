@@ -44,7 +44,6 @@
                 <td v-if="edit_pass_through">
                   <input type="text" v-model="travel.pass_through" />
                 </td>
-
                 <td>
                   <i
                     @click="edit_pass_through = !edit_pass_through; "
@@ -58,7 +57,6 @@
                 <td v-if="edit_seats">
                   <input type="number" v-model="travel.seats" />
                 </td>
-
                 <td>
                   <i @click="edit_seats = !edit_seats;" 
                   class="fas fa-pen"></i>
@@ -77,7 +75,6 @@
                     max="2030-10-31T17:22:29Z"
                   />
                 </td>
-
                 <td>
                   <i
                     @click="edit_date_travel = !edit_date_travel;"
@@ -91,7 +88,6 @@
                 <td v-if="edit_price">
                   <input type="number" v-model="travel.price" />
                 </td>
-
                 <td>
                   <i @click="edit_price = !edit_price" class="fas fa-pen"></i>
                 </td>
@@ -120,7 +116,7 @@
 <script>
 import gql from "graphql-tag";
 export default {
-  name: "logIn",
+  name: "travelDetails"
   data: function () {
     return {
       user: {
@@ -163,34 +159,3 @@ export default {
   created: function () {},
 };
 </script>
-
-<style>
-.errorMessage {
-  font-size: 13px;
-  color: red;
-}
-
-.inputR {
-  width: 100%;
-  padding: 10px 20px;
-  margin: 5px 0;
-  background-color: rgba(230, 230, 230, 0.5);
-  border: 1px solid rgba(0, 5, 70, 0.2);
-  border-radius: 50px;
-}
-.buttonR {
-  color: #e5e7e9;
-  background: #000546;
-  border-radius: 50px;
-  border: 3px solid #000546;
-}
-.buttonR:hover {
-  border: 3px solid #ffaf28;
-  background: #000546;
-}
-.borderR{
-  border: 1px solid rgba(0, 5, 70, 0.2);
-  border-radius: 10px;
-  padding: 20px 10px;
-}
-</style>
