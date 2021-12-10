@@ -15,8 +15,8 @@
           <h4
             class="card-title d-flex justify-content-between align-items-center"
           >
-            {{ travel.from_place }} <i class="fas fa-long-arrow-alt-right"></i>
-            {{ travel.to_place }}
+            {{ travel.fromPlace }} <i class="fas fa-long-arrow-alt-right"></i>
+            {{ travel.toPlace }}
           </h4>
           <br />
           <table class="table table-striped table-hover">
@@ -27,11 +27,15 @@
               </tr>
               <tr>
                 <th scope="row">Conductor</th>
-                <td>{{ travel.idDriver }}</td>
+                <td>{{ travel.nameDriver }}</td>
               </tr>
               <tr>
                 <th scope="row">Cuando?</th>
-                <td colspan="2">{{ travel.dateTravel.substring(0,10)+"\n"+ travel.dateTravel.substring(11,19)}}</td>
+                <td colspan="2">{{ travel.dateTravel.substring(0,10)+" "+ travel.dateTravel.substring(11,19)}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Asientos disponibles</th>
+                <td colspan="2">{{ travel.seats}}</td>
               </tr>
             </tbody>
           </table>
