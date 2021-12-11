@@ -59,21 +59,6 @@ export default {
       getTravels: [],
     };
   },
-<<<<<<< HEAD
-  methods: {
-    succes: function () {
-      this.$emit("success");
-    },
-    listTravels: function () {},
-    getUser: function (travels) {},
-    formatDate: function (travels) {
-      for (let i in travels) {
-        var date = new Date(travels[i].date_travel);
-        let result = date.toLocaleString();
-        this.travels[i].date_travel = result;
-      }
-    },
-=======
   apollo: {
     /**getTravelByDriver: {
       query: gql`
@@ -115,8 +100,9 @@ export default {
         };
       },
     },
+
     
->>>>>>> adriana
+    
   },
   
   created: function () {
