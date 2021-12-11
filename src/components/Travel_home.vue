@@ -3,7 +3,7 @@
     <div class="title">
       <h1><b>Encuentra tu viaje</b></h1>
     </div>
-    <div v-for="travel in travels" class="col-md-4 mt-2">
+    <div v-for="travel in travels" class="col-md-3 mt-2">
       <div class="card shadow-lg p-3 mb-5 bg-body rounded border-dark">
         <div class="card-header fs-3 text">
           COP <b> ${{ travel.price }}</b>
@@ -98,8 +98,8 @@ export default {
       for (let i in travels) {
         var dateTravel = new Date(travels[i].dateTravel);
         var published = new Date(travels[i].published);
-        dateTravel = moment(dateTravel).fromNow();
-        published = moment(published).fromNow();
+        dateTravel = moment(dateTravel).calendar();  
+        published = moment(published).calendar();
         this.travels[i].dateTravel = dateTravel;
         this.travels[i].published = published;
       }
