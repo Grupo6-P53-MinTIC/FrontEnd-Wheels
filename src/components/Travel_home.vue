@@ -5,36 +5,44 @@
     </div>
     <div v-for="travel in travels" class="col-md-4 mt-2">
       <div class="card shadow-lg p-3 mb-5 bg-body rounded border-dark">
-        <div class="card-header">
-          <b>COP ${{ travel.price }}</b>
+        <div class="card-header fs-3 text">
+          COP <b> ${{ travel.price }}</b>
         </div>
         <div class="card-body text-dark">
           <h4
             class="card-title d-flex justify-content-between align-items-center"
           >
-            {{ travel.from_place }} <i class="fas fa-long-arrow-alt-right"></i>
-            {{ travel.to_place }}
+            {{ travel.fromPlace }} <i class="fas fa-long-arrow-alt-right"></i>
+            {{ travel.toPlace }}
           </h4>
           <br />
           <table class="table table-striped table-hover">
             <tbody>
               <tr>
                 <th scope="row">Pasa por: </th>
-                <td>{{ travel.pass_through }}</td>
+                <td>{{ travel.passThrough }}</td>
+
+              </tr>
+              <tr>
+                <th scope="row">Asientos </th>
+                <td>{{ travel.seats }}</td>
 
               </tr>
               <tr>
                 <th scope="row">Conductor</th>
-                <td>{{ travel.id_manager }}</td>
+                <td>{{ travel.nameDriver }}</td>
               </tr>
               <tr>
                 <th scope="row">Cuando?</th>
-                <td colspan="2">{{ travel.date_travel }}</td>
+                <td colspan="2">{{ travel.dateTravel }}</td>
 
               </tr>
             </tbody>
           </table>
           <button v-on:click="succes" class="btn btn-primary w-100 buttonR">Reservar</button>
+        </div>
+        <div class="card-footer text-muted">
+            {{travel.published}}
         </div>
       </div>
     </div>
@@ -42,6 +50,10 @@
 </template>
 
 <script>
+import gql from "graphql-tag";
+import moment from "moment";
+moment.locale('es');
+
 export default {
   name: "travels_home",
   data: function () {
@@ -53,13 +65,43 @@ export default {
     succes: function () {
       this.$emit("success");
     },
-    listTravels: function () {},
-    getUser: function (travels) {},
+    listTravels:async function () {
+      await this.$apollo
+      .mutate({
+        mutation: gql`
+          query GetTravels {
+            getTravels {
+              idTravel
+              idDriver
+              nameDriver
+              fromPlace
+              toPlace
+              passThrough
+              published
+              dateTravel
+              seats
+              price
+            }
+          }
+        `,
+        variables:{
+
+        }
+      }).then((result) =>{
+        console.log("Entro");
+        console.log(result.data.getTravels);
+        this.travels = result.data.getTravels;
+        this.formatDate(this.travels);
+      })
+    },
     formatDate: function (travels) {
       for (let i in travels) {
-        var date = new Date(travels[i].date_travel);
-        let result = date.toLocaleString();
-        this.travels[i].date_travel = result;
+        var dateTravel = new Date(travels[i].dateTravel);
+        var published = new Date(travels[i].published);
+        dateTravel = moment(dateTravel).fromNow();
+        published = moment(published).fromNow();
+        this.travels[i].dateTravel = dateTravel;
+        this.travels[i].published = published;
       }
     },
   },
