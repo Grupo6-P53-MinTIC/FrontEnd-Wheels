@@ -48,8 +48,8 @@ export default {
   data: function () {
     return {
       user: {
-        username: "",
-        password: "",
+        username: "salvador",
+        password: "pruebaPass1",
       },
       error: false,
     };
