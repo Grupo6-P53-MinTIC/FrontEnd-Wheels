@@ -63,6 +63,7 @@
         v-on:successRegister="loadLogin"
         v-on:successLogin="successLogin"
         v-on:success="successAlert"
+        v-on:loadReservation="loadReservation"
         v-on:fail="fail"
       >
       </router-view>
@@ -71,7 +72,7 @@
 </template>
 
 <script>
-
+import travels_home from "@/components/Travel_home"
 export default {
   name: "App",
   data: function () {
@@ -112,6 +113,14 @@ export default {
     },
     loadEditTravel: function () {
       if (this.is_auth) this.$router.push({ name: "editTravel" });
+      else {
+        this.loadLogin();
+      }
+    },
+    loadReservation: function (idTravel) {
+      if (this.is_auth) {
+        this.$router.push({ name: "generate_reservation" });
+        }
       else {
         this.loadLogin();
       }
