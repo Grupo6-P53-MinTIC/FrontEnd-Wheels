@@ -239,7 +239,7 @@ export default {
     registerUser: async function () {
       if (this.user.typeAccount == "D") {
         this.user.car = this.car; // Si es Driver se agrega el objeto car
-      }else if(this.user.typeAccount == "D" && this.user.hasOwnProperty("car")){
+      }else if(this.user.typeAccount == "P" && this.user.hasOwnProperty("car")){
         delete this.user.car; //Si es pasajero se elimina el objeto car de ser necesario
       }
       console.log(this.user);
