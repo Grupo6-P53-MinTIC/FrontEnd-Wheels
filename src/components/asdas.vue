@@ -1,76 +1,63 @@
 <template>
-  <div class="row justify-content-end me-lg-5 pe-lg-4 m-2">
+<div class="row justify-content-end me-lg-5 pe-lg-4 m-2">
     <div class="col-lg-4 col-sm-6 borderR bg-light bg-gradient bg-opacity-50">
       <h2 class="text-center"><b>Registrate</b></h2>
-      <br />
+      <br>
       <form v-on:submit.prevent="registerUser" class="">
         <div class="mb-3">
-          <input class="inputR" 
-          v-model="user.email"
-          type="email" 
-          placeholder="Correo electronico"
-          required="true"
-           />
+          <input
+            class="inputR"
+            v-model="userP.email"
+            type="text"
+            placeholder="Correo electronico"
+          />
         </div>
         <div class="mb-3">
           <input
             class="inputR"
-            v-model="user.username"
+            v-model="userP.username"
             type="text"
             placeholder="Nombre de usuario"
-            required="true"
           />
         </div>
         <div class="mb-3">
           <input
             class="inputR"
-            v-model="user.password"
+            v-model="userP.password"
             type="password"
             placeholder="Contraseña"
-            required="true"
-          />
-        </div>
-        <div class="mb-3">
-          <input
-            class="inputR"
-            type="password"
-            placeholder="Confirma contraseña"
-            required="true"
           />
         </div>
         <h4 class="text-center"><b>informacion personal</b></h4>
         <div class="mb-3">
           <input
             class="inputR"
-            v-model="user.name"
+            v-model="userP.name"
             type="text"
             placeholder="nombre del pasagero"
-            required="true"
           />
         </div>
         <div class="mb-3">
           <input
             class="inputR"
-            v-model="user.lastName"
+            v-model="userP.lastName"
             type="text"
             placeholder="apellido del pasagero"
-            required="true"
           />
         </div>
         <p class="text-center">fecha de nacimiento:</p>
         <div class="mb-3">
           <input
             class="inputR"
-            v-model="user.birthDate"
+            v-model="userP.birthDate"
             type="date"
             id="meeting-time"
             name="meeting-time"
-            min="1900-12-31"
-            max="2021-12-31"
-            required="true"
+            min="2021-10-31"
+            max="2030-10-31"
           />
         </div>
-        <select v-model="user.gender" class="form-control" id="GenderInput">
+        <select v-model="userP.gender"  class="form-control" id="GenderInput">
           <option value="">genero</option>
           <option value="M">Maculino</option>
           <option value="F">Femenino</option>
@@ -78,61 +65,39 @@
         <div class="mb-3">
           <input
             class="inputR"
-            v-model="user.documentNumber"
+            v-model="userP.documentNumber"
             type="text"
             placeholder="numero de documento"
-            required="true"
           />
         </div>
         <div class="mb-3">
           <input
             class="inputR"
-            v-model="user.phoneNumber"
+            v-model="userP.phoneNumber"
             type="text"
             placeholder="numero telefonico"
-            required="true"
           />
         </div>
         <h4 class="text-center"><b>Tipo de usuario</b></h4>
-        <br />
+        <br>
 
-        <div class="text-center">
-          <div class="buttons">
-            <button
-              type="button"
-              class="btn btn-primary buttonR w-lg-50"
-              v-on:click="driverf"
-            >
-              conductor
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary buttonR w-lg-50"
-              v-on:click="pasajerof"
-            >
-              pasajero
-            </button>
+        <div class= "text-center">
+          <div class=" buttons">
+            <button type="button" class="btn btn-primary buttonR w-lg-50" v-on:click="driverf">conductor</button>
+            <button type="button" class="btn btn-primary buttonR w-lg-50" v-on:click="pasajerof">pasajero</button>
           </div>
         </div>
 
+
         <div id="Driver">
-          <br />
-          <h4 class="text-center"><b>Placa del vehiculo</b></h4>
-          <div class="mb-3">
-            <input
-              class="inputR"
-              v-model="car.carRegistrationNumber"
-              type="text"
-              placeholder="numero de licencia de conduccion"
-            />
-          </div>
+          <br>
+          <h4 class="text-center"><b>Informacion del vehiculo</b></h4>
           <div class="mb-3">
             <input
               class="inputR"
               v-model="car.licenseNumber"
               type="text"
               placeholder="numero de licencia de conduccion"
-              required="true"
             />
           </div>
           <div class="mb-3">
@@ -141,7 +106,6 @@
               v-model="car.color"
               type="text"
               placeholder="color del vehiculo"
-              required="true"
             />
           </div>
           <div class="mb-3">
@@ -150,7 +114,6 @@
               v-model="car.brand"
               type="text"
               placeholder="marca del vehiculo"
-              required="true"
             />
           </div>
           <div class="mb-3">
@@ -159,7 +122,6 @@
               v-model="car.model"
               type="text"
               placeholder="modelo del vehiculo"
-              required="true"
             />
           </div>
           <div class="mb-3">
@@ -168,20 +130,17 @@
               v-model="car.description"
               type="text"
               placeholder="descripcion del vehiculo"
-              required="true"
             />
           </div>
         </div>
 
         <div class="mb-3">
+          <p class="text-center">¿Ya tienes una cuenta?</p>
           <p class="text-center mt-0" v-on:click="loadLogin">
-            <a href="">Registrate</a>
+            <a href="">Inicia sesión</a>
           </p>
           <p v-if="error" class="errorMessage text-center">
-            Credenciales no validas  
-          </p>
-          <p v-if="passwordDontMatch" class="errorMessage text-center">
-            Las contraseñas no coinciden 
+            Las contraseñas no coinciden
           </p>
         </div>
         <div class="text-center">
@@ -201,70 +160,120 @@ export default {
   name: "register",
   data: function () {
     return {
-      user: {
+      userP: {
         username: "",
         password: "",
-        email: "testuser4sd8@test.com",
-        name: "testName",
-        lastName: "testLastName",
-        birthDate: "2000-10-08",
+        email: "",
+        name:"",
+        lastName:"",
+        birthDate:"",
         gender: "",
         documentNumber: "",
         phoneNumber: "",
-        typeAccount: "",
+        typeAccount: ""
       },
-      car: {
-        carRegistrationNumber: "KJK124",
-        licenseNumber: "12331654",
-        color: "Verde",
-        brand: "Renault",
-        model: "2008",
-        description: "none",
-        equipament: "PU",
+      car:{
+        carRegistrationNumber:"",
+        licenseNumber:"",
+        color:"",
+        brand:"",
+        model:"",
+        description:"",
+        equipament:""
       },
-      error: false,
-      passwordDontMatch: false,
+      Driver: {},
+      error:  false,
     };
   },
   methods: {
     driverf: function(){
-      this.user.typeAccount = "D";
-      console.log(this.user.typeAccount)
+      this.userP.typeAccount = "D";
+      console.log(this.userP.typeAccount)
+
+
       document.getElementById("Driver").style.display = 'block';
     },
     pasajerof: function(){
-      this.user.typeAccount = "P";
+      this.userP.typeAccount = "P";
       document.getElementById("Driver").style.display = 'none';
     },
+    
     registerUser: async function () {
-      if (this.user.typeAccount == "D") {
-        this.user.car = this.car;
+      if(this.userP.typeAccount == "P"){
+        console.log(this.userP);
+        await this.$apollo.mutate(
+          {
+            mutation: gql`
+              mutation Mutation($userInput: SignUpInput) {
+                signUpUser(userInput: $userInput) {
+                  access
+                  refresh
+                }
+              } 
+            `,
+            variables:{
+              userInput: this.userP
+            }
+          }
+        )
+        .then((result)=>{
+          let data = {
+            username    :this.userP.username,
+            tokenRefresh: result.data.signUpUser.refresh,
+            tokenAccess : result.data.signUpUser.access
+          };
+          //revisar con el app.vue (cambiar logica de tokens)
+          this.$emit("completedRegister",data);
+          this.$emit("success",data);
+        })
+        .catch((error)=>{
+          console.log(error);
+          alert("Error. fallo en el registro. Intente de nuevo.")
+        }) 
       }
-      console.log(this.user);
-      await this.$apollo
-        .mutate({
-          mutation: gql`
-            mutation Mutation($userInput: SignUpInput) {
-              signUpUser(userInput: $userInput) {
-                access
+      else if(this.userP.typeAccount == "D"){
+        this.userP.car = this.car
+        console.log(this.userP);
+        await this.$apollo.mutate(
+          {
+            mutation:gql`
+            mutation SignUpUser($userInput: SignUpInput) {
+             signUpUser(userInput: $userInput) {
                 refresh
+                access
               }
             }
-          `,
-          variables: {
-            userInput: this.user,
-          },
-        }
-        ).then((result) => {
-          this.$emit("success",result);
+            `,
+            variables: {
+              userInput:  this.userP
+            }
+          }
+        )
+        .then((result)=>{
+          console.log(result);
+          let data = {
+            username    :this.userP.username,
+            tokenRefresh: result.data.signUpUser.refresh,
+            tokenAccess : result.data.signUpUser.access
+          };
+          this.$emit("success",data);
+          this.$emit("completedRegister",data);
         })
-        .catch((error) => {
+        .catch((error)=>{
           console.log(error);
-          this.error = true;
-        });
+          alert("Error. fallo en el registro. Intente de nuevo.")
+        }) 
+      }
     },
   },
-  created: function () {},
+  created: function () {
+
+  },
 };
 </script>
 
+<style>
+#Driver{
+  display: none;
+}
+</style>

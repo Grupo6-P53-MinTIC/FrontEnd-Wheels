@@ -72,15 +72,10 @@ export default {
       })
       .then((result) => {
         console.log(result);
-        let dataLogin = {
-          username : this.user.username,
-          token_access : result.data.logIn.access,
-          token_refresh : result.data.logIn.refresh,
-        };
         this.$emit("successLogin", result);
       })
       .catch((error) => {
-          console.error(error);
+          this.error=true;
         })
     }
   },
