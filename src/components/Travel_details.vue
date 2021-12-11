@@ -1,6 +1,8 @@
 <template>
   <div class="container-card">
-    <div class="card container-card blur shadow-lg p-3 bg-body rounded border-dark me-3">
+    <div
+      class="card container-card blur shadow-lg p-3 bg-body rounded border-dark me-3"
+    >
       <form>
         <table class="table table-striped table-hover">
           <thead>
@@ -62,7 +64,9 @@
           </tbody>
         </table>
         <div class="d-grid gap-2 col-6 mx-auto">
-          <button class="btn btn-danger button-reservation" type="button">Cancelar Reserva</button>
+          <button class="btn btn-danger button-reservation" type="button">
+            Cancelar Reserva
+          </button>
         </div>
       </form>
     </div>
@@ -73,7 +77,11 @@
 import gql from "graphql-tag";
 export default {
   name: "travelDetails",
-  data: function () {},
+  data: function () {
+    return {
+      travel: [],
+    };
+  },
   methods: {},
   created: function () {},
 };
@@ -87,7 +95,7 @@ export default {
   padding: 20px;
   margin: 25px;
 }
-.button-reservation{
-    border-radius: 30px;
+.button-reservation {
+  border-radius: 30px;
 }
 </style>

@@ -19,14 +19,12 @@
           <table class="table table-striped table-hover">
             <tbody>
               <tr>
-                <th scope="row">Pasa por: </th>
+                <th scope="row">Pasa por:</th>
                 <td>{{ travel.passThrough }}</td>
-
               </tr>
               <tr>
-                <th scope="row">Asientos </th>
+                <th scope="row">Asientos</th>
                 <td>{{ travel.seats }}</td>
-
               </tr>
               <tr>
                 <th scope="row">Conductor</th>
@@ -35,14 +33,18 @@
               <tr>
                 <th scope="row">Cuando?</th>
                 <td colspan="2">{{ travel.dateTravel }}</td>
-
               </tr>
             </tbody>
           </table>
-          <button v-on:click="succes" class="btn btn-primary w-100 buttonR">Reservar</button>
+          <button
+            v-on:click="createReservation"
+            class="btn btn-primary w-100 buttonR"
+          >
+            Reservar
+          </button>
         </div>
         <div class="card-footer text-muted">
-            {{travel.published}}
+          {{ travel.published }}
         </div>
       </div>
     </div>
@@ -52,47 +54,85 @@
 <script>
 import gql from "graphql-tag";
 import moment from "moment";
-moment.locale('es');
+moment.locale("es");
 
 export default {
   name: "travels_home",
   data: function () {
     return {
-      travels: [],
+      travels: {},
     };
   },
   methods: {
     succes: function () {
       this.$emit("success");
     },
-    listTravels:async function () {
+    listTravels: async function () {
       await this.$apollo
-      .mutate({
-        mutation: gql`
-          query GetTravels {
-            getTravels {
-              idTravel
-              idDriver
-              nameDriver
-              fromPlace
-              toPlace
-              passThrough
-              published
-              dateTravel
-              seats
-              price
+        .mutate({
+          mutation: gql`
+            query GetTravels {
+              getTravels {
+                idTravel
+                idDriver
+                nameDriver
+                fromPlace
+                toPlace
+                passThrough
+                published
+                dateTravel
+                seats
+                price
+              }
             }
-          }
-        `,
-        variables:{
-
-        }
-      }).then((result) =>{
-        console.log("Entro");
-        console.log(result.data.getTravels);
-        this.travels = result.data.getTravels;
-        this.formatDate(this.travels);
-      })
+          `,
+          variables: {},
+        })
+        .then((result) => {
+          console.log("Entro");
+          console.log(result.data.getTravels);
+          this.travels = result.data.getTravels;
+          
+          this.formatDate(this.travels);
+          // this.$emit("loadDetails");
+        });
+    },
+    createReservation: async function () {
+      const target_copy = Object.assign({}, this.travels);
+          console.log(target_copy[1].nameDriver);
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation AddReservation($reservation: ReservationInput!) {
+              addReservation(reservation: $reservation) {
+                id
+                idTravel
+                usernameDriver
+                usernamePassenger
+                seats
+                state
+                date
+              }
+            }
+          `,
+          variables: {
+            reservation: {
+              idTravel: '004',
+              usernameDriver: 'Farith',
+              usernamePassenger: 'Salvador',
+              seats: 2,
+              date: '2021-11-29T05:07:15.741+00:00',
+            }
+          },
+        })
+        .then((result) => {
+          console.log("Añadimos");
+           console.log("Añadimos");
+          console.log(listTravels.nameDriver);
+          console.log(localStorage.getItem("nameDriver"));
+          console.log(result.data);
+          // this.$emit("loadDetails");
+        });
     },
     formatDate: function (travels) {
       for (let i in travels) {
@@ -111,7 +151,7 @@ export default {
 };
 </script>
 
-<style >
+<style>
 .title {
   text-align: right;
 }
