@@ -15,9 +15,7 @@
     <nav
       class="
         navbar navbar-expand-lg navbar-light
-        bg-secondary bg-gradient bg-opacity-10
-      "
-    >
+        bg-secondary bg-gradient bg-opacity-10">
       <div class="container-fluid">
         <a class="navbar-brand wheels fs-3" href="/">Wheels</a>
         <button
@@ -49,6 +47,10 @@
             <button v-if="is_auth" v-on:click="loadEditTravel">
               <i class="fab fa-creative-commons-by"></i>
               Mis viajes
+            </button>
+            <button v-if="is_auth" v-on:click="loadReservations">
+              <i class="fab fa-creative-commons-by"></i>
+              Mis reservas
             </button>
             <button v-if="is_auth" v-on:click="logout">
               <i class="fas fa-sign-out-alt"></i>
@@ -117,9 +119,9 @@ export default {
         this.loadLogin();
       }
     },
-    loadReservation: function (idTravel) {
+    loadReservations: function (idTravel) {
       if (this.is_auth) {
-        this.$router.push({ name: "generate_reservation" });
+        this.$router.push({ name: "reservations" });
         }
       else {
         this.loadLogin();

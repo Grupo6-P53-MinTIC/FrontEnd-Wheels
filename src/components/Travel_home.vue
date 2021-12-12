@@ -9,8 +9,11 @@
           COP <b> ${{ travel.price }}</b>
         </div>
         <div class="card-body text-dark">
-          <h3 class="card-title d-flex justify-content-between align-items-center">
-            {{ travel.fromPlace }}<i class="fas fa-long-arrow-alt-right"></i>{{ travel.toPlace }}
+          <h3
+            class="card-title d-flex justify-content-between align-items-center"
+          >
+            {{ travel.fromPlace }}<i class="fas fa-long-arrow-alt-right"></i
+            >{{ travel.toPlace }}
           </h3>
           <p v-if="travel.car" class="fs-6 text-muted text-center">
             <i class="fas fa-car"></i> {{ travel.car.brand }} |
@@ -36,8 +39,13 @@
               </tr>
             </tbody>
           </table>
-          <button v-on:click="sendReservation(travel)" type="button" class="btn btn-primary w-100 buttonR"
-            data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <button
+            v-on:click="reservationDetail(travel)"
+            type="button"
+            class="btn btn-primary w-100 buttonR"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
             Reservar
           </button>
         </div>
@@ -48,24 +56,55 @@
     </div>
   </div>
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title d-flex justify-content-between align-items-center" id="exampleModalLabel">
+          <h5
+            class="
+              modal-title
+              d-flex
+              justify-content-between
+              align-items-center
+            "
+            id="exampleModalLabel"
+          >
             Confirmar Reserva
           </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
         <div class="modal-body">
-          <h3 class="d-flex justify-content-between align-items-center ms-2 me-2">
-            {{ travelSelected.fromPlace}}
+          <h3
+            class="d-flex justify-content-between align-items-center ms-2 me-2"
+          >
+            {{ travelSelected.fromPlace }}
             <i class="fas fa-long-arrow-alt-right"></i>
-            {{ travelSelected.toPlace}}
+            {{ travelSelected.toPlace }}
           </h3>
           <div class="me-3 ms-3 text-center">
-            <label for="disabledSelect" class="form-label">¿Cuantos asientos necesitas? </label> <br>
-            <input  id="disabledSelect" class="" type="number" min="1" :max='travelSelected.seats' value="1" />
+            <label for="disabledSelect" class="form-label"
+              >¿Cuantos asientos necesitas?
+            </label>
+            <br />
+            <input
+              id="disabledSelect"
+              class=""
+              type="number"
+              min="1"
+              :max="travelSelected.seats"
+              :value='seats'
+            />
           </div>
           <table class="table table-striped table-hover align-middle">
             <thead>
@@ -76,31 +115,37 @@
             <tbody>
               <tr>
                 <td colspan="2">
-                  <b><i class="fas fa-male">|</i><i class="fas fa-male"></i> Asientos disponibles:
-                    {{ travelSelected.seats }}</b>
+                  <b
+                    ><i class="fas fa-male">|</i><i class="fas fa-male"></i>
+                    Asientos disponibles:
+                    {{ travelSelected.seats }}</b
+                  >
                 </td>
               </tr>
               <tr>
                 <td>
-                  <i class="fas fa-paw"></i> Mascotas: Si |
+                  <i class="fas fa-paw"></i> Mascotas: Si <br />
                   <i class="fas fa-smoking"></i> Fumar: No
                 </td>
                 <td>Sin restricciones</td>
               </tr>
               <tr>
                 <td>
-                  <b><i class="fas fa-user-circle"></i> Conductor/a:
+                  <b
+                    ><i class="fas fa-user-circle"></i> Conductor/a:
                     {{ travelSelected.nameDriver }}
                   </b>
                 </td>
                 <td>
-                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                    class="fas fa-star"></i><i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i
+                  ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                  ><i class="fas fa-star"></i>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <b><i class="far fa-clock"></i> Salida :
+                  <b
+                    ><i class="far fa-clock"></i> Salida :
                     {{ travelSelected.dateTravel }}
                   </b>
                 </td>
@@ -118,7 +163,10 @@
               </tr>
             </tbody>
           </table>
-          <table v-if="travelSelected.car" class="table table-striped table-hover align-middle">
+          <table
+            v-if="travelSelected.car"
+            class="table table-striped table-hover align-middle"
+          >
             <thead>
               <tr>
                 <th scope="col">Datos del vehiculo</th>
@@ -148,18 +196,21 @@
           <table class="table table-striped table-hover align-middle">
             <thead>
               <tr>
-                <th scope="col">Total a pagar:</th>
-                <th scope="col">COP ${{ travelSelected.price }}</th>
+                <th scope="col">Total a pagar</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Total viaje:</td>
+                <td>Precio del viaje:</td>
                 <td>COP ${{ travelSelected.price }}</td>
               </tr>
               <tr>
-                <td>Mas 0% IVA :</td>
+                <td>+ 0% IVA :</td>
                 <td>COP $0.0</td>
+              </tr>
+              <tr>
+                <th scope="col">Total a pagar:</th>
+                <th scope="col">COP ${{ travelSelected.price }}</th>
               </tr>
             </tbody>
           </table>
@@ -168,7 +219,10 @@
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
             Atras
           </button>
-          <button type="button" class="btn btn-primary">
+          <button
+            v-on:click="generateReservation(travelSelected)"
+            type="button"
+            class="btn btn-primary" data-bs-dismiss="modal" >
             Confirmar y pagar ${{ travelSelected.price }}
           </button>
         </div>
@@ -178,29 +232,32 @@
   <!-- Modal -->
 </template>
 <script>
-  import gql from "graphql-tag";
-  import moment from "moment";
-  moment.locale("es");
+import gql from "graphql-tag";
+import moment from "moment";
+moment.locale("es");
 
-  export default {
-    name: "travels_home",
-    data: function () {
-      return {
-        travels: [],
-        cars: [],
-        travelSelected: {},
-      };
+export default {
+  name: "travels_home",
+  data: function () {
+    return {
+      travels: [],
+      cars: [],
+      travelSelected: {},
+      reservation: {},
+      passenger: {},
+      driver: {},
+      seats: 1
+    };
+  },
+  methods: {
+    reservationDetail: function (travel) {
+      this.travelSelected = travel;
+      this.getDriver(travel.idDriver)
     },
-    methods: {
-      sendReservation: function (travel) {
-        this.travelSelected = travel;
-        // this.$router.push({ name: "generate_reservation" });
-        // this.$emit("loadReservation", idTravel);
-      },
-      listTravels: async function () {
-        await this.$apollo
-          .mutate({
-            mutation: gql`
+    listTravels: async function () {
+      await this.$apollo
+        .mutate({
+          mutation: gql`
             query GetTravels {
               getTravels {
                 idTravel
@@ -216,19 +273,19 @@
               }
             }
           `,
-            variables: {},
-          })
-          .then((result) => {
-            this.travels = result.data.getTravels;
-            this.formatDate(this.travels);
-            this.getCars(this.travels);
-          });
-      },
-      getCars: async function (travels) {
-        for (let i in travels) {
-          await this.$apollo
-            .mutate({
-              mutation: gql`
+          variables: {},
+        })
+        .then((result) => {
+          this.travels = result.data.getTravels;
+          this.formatDate(this.travels);
+          this.getCars(this.travels);
+        });
+    },
+    getCars: async function (travels) {
+      for (let i in travels) {
+        await this.$apollo
+          .mutate({
+            mutation: gql`
               query CarByDriverId($idDriver: Int!) {
                 carByDriverId(idDriver: $idDriver) {
                   carRegistrationNumber
@@ -241,40 +298,145 @@
                 }
               }
             `,
-              variables: {
-                // "idDriver": parseInt(travels[i].idDriver)
-                idDriver: 47,
-              },
-            })
-            .then((result) => {
-              let aux = result.data.carByDriverId[0];
-              this.travels[i].car = aux;
-            })
-            .catch((error) => {
-              console.log("Error al solicitar informaciond e los carros", error);
-              alert("Error al solicitar informaciond e los carros");
-            });
-        }
-      },
-      formatDate: function (travels) {
-        for (let i in travels) {
-          var dateTravel = new Date(travels[i].dateTravel);
-          var published = new Date(travels[i].published);
-          dateTravel = moment(dateTravel).calendar();
-          published = moment(published).calendar();
-          this.travels[i].dateTravel = dateTravel;
-          this.travels[i].published = published;
-        }
-      },
+            variables: {
+              // "idDriver": parseInt(travels[i].idDriver)
+              idDriver: 47,
+            },
+          })
+          .then((result) => {
+            let aux = result.data.carByDriverId[0];
+            this.travels[i].car = aux;
+          })
+          .catch((error) => {
+            console.log("Error al solicitar informaciond e los carros", error);
+            alert("Error al solicitar informaciond e los carros");
+          });
+      }
     },
-    created: function () {
-      this.listTravels();
+    formatDate: function (travels) {
+      for (let i in travels) {
+        var dateTravel = new Date(travels[i].dateTravel);
+        var published = new Date(travels[i].published);
+        dateTravel = moment(dateTravel).calendar();
+        published = moment(published).calendar();
+        this.travels[i].dateTravel = dateTravel;
+        this.travels[i].published = published;
+      }
     },
-  };
-</script>
+    getDriver: async function (idDriver) {
+      console.log("Entro: idDriver", idDriver);
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            query Query($userId: Int!) {
+              userDetailById(userId: $userId) {
+                id
+                username
+                password
+                email
+                name
+                lastName
+                birthDate
+                gender
+                documentNumber
+                phoneNumber
+                typeAccount
+              }
+            }
+          `,
+          variables: {
+            userId: parseInt(idDriver),
+          },
+        })
+        .then((result) => {
+          this.driver = result.data.userDetailById;
+        })
+        .catch((error) => {
+          console.log(
+            "El conductor de este viaje no esta registrado en la base de datos",
+            error
+          );
+          alert(
+            "El conductor de este viaje no esta registrado en la base de datos"
+          );
+        });
+    },
+    getPassenger: async function () {
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation Mutation($token: String!) {
+              getUserByToken(token: $token) {
+                id
+                username
+                password
+                email
+                name
+                lastName
+                birthDate
+                gender
+                documentNumber
+                phoneNumber
+                typeAccount
+              }
+            }
+          `,
+          variables: {
+            token:
+              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjM5MzUyOTMyLCJqdGkiOiJlY2U5MzVkNDBmY2Y0NzAzOGJmMjE5ZDEzMmM0OTUxMSIsInVzZXJfaWQiOjJ9.bHdMdoYoyaScwibowW1JwnoqcWo_hFcb05W_2x2Bzes",
+          },
+        })
+        .then((result) => {
+          this.passenger = result.data.getUserByToken[0];
+        })
+        .catch((error) => {
+          console.log("Error al solicitar informaciond del usuario", error);
+          alert("Error al solicitar informaciond del usuario");
+        });
+    },
+    generateReservation: async function (travel) {
+      this.reservation.idTravel = travel.idTravel;
+      this.reservation.usernameDriver = this.driver.username;
+      this.reservation.usernamePassenger = this.passenger.username;
+      this.reservation.seats = this.seats;
 
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation Mutation($reservation: ReservationInput!) {
+              addReservation(reservation: $reservation) {
+                id
+                idTravel
+                usernameDriver
+                usernamePassenger
+                seats
+                state
+                date
+              }
+            }
+          `,
+          variables: {
+            reservation: this.reservation,
+          },
+        })
+        .then((result) => {
+          this.listTravels();
+          this.$emit("success",result);
+        })
+        .catch((error) => {
+          console.log("Error al generar la reserva", error);
+          alert("Error al generar la reserva");
+        });
+    },
+  },
+  created: function () {
+    this.listTravels();
+    this.getPassenger();
+  },
+};
+</script>
 <style>
-  .title {
-    text-align: right;
-  }
+.title {
+  text-align: right;
+}
 </style>
