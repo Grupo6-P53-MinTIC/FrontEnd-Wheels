@@ -40,10 +40,6 @@
               <i class="fas fa-pager"></i>
               Regístrate
             </button>
-            <button  v-on:click="loadDetails">
-              <i class="fas fa-pager"></i>
-              Resumen de reserva
-            </button>
             <button v-if="is_auth" v-on:click="loadCreateTravel">
               <i class="fas fa-plus-square"></i>
               Publicar viaje
@@ -52,7 +48,7 @@
               <i class="fab fa-creative-commons-by"></i>
               Mis viajes
             </button>
-            <button v-if="is_auth" v-on:click="loadReservation">
+            <button v-if="is_auth" v-on:click="loadReservations">
               <i class="fab fa-creative-commons-by"></i>
               Mis reservas
             </button>
@@ -71,7 +67,7 @@
         v-on:loadDetails="loadDetails"
         v-on:listReservations="listReservations"
         v-on:success="successAlert"
-        v-on:loadReservation="loadReservation"
+        v-on:loadReservations="loadReservations"
         v-on:fail="fail"
       >
       </router-view>
@@ -128,7 +124,7 @@ export default {
         this.loadLogin();
       }
     },
-    loadReservations: function (idTravel) {
+    loadReservations: function () {
       if (this.is_auth) {
         this.$router.push({ name: "reservations" });
         }

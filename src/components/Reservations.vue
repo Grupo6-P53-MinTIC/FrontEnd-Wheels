@@ -3,10 +3,13 @@
     <div class="title">
       <h1><b>Tus reservas</b></h1>
     </div>
-    <div  v-for="reservation in reservations" class="col-xl-4 col-md-6 col-sm-12 mt-2">
+    <div
+      v-for="reservation in reservations"
+      class="col-xl-4 col-md-6 col-sm-12 mt-2"
+    >
       <div class="card shadow-lg p-3 mb-5 bg-body rounded border-dark">
         <div class="card-header fs-6 text">
-          Estado <b> {{ reservation.state }}</b> <br/>
+          Estado <b> {{ reservation.state }}</b> <br />
         </div>
         <div class="card-body text-dark">
           <h4
@@ -20,33 +23,38 @@
           <table class="table table-striped table-hover">
             <tbody>
               <tr>
-                <th scope="row">Asientos reservados </th>
-                <td> <b>{{ reservation.seats }}</b> </td>
+                <th scope="row">Asientos reservados</th>
+                <td>
+                  <b>{{ reservation.seats }}</b>
+                </td>
               </tr>
-              <tr v-if="reservation.driver" >
+              <tr v-if="reservation.driver">
                 <th scope="row">Conductor</th>
                 <td>{{ reservation.nameDriver }}</td>
               </tr>
-              <tr v-if="passenger" >
+              <tr v-if="passenger">
                 <th scope="row">Pasajero</th>
-                <td>{{ passenger.name}} {{ passenger.lastName}} </td>
+                <td>{{ passenger.name }} {{ passenger.lastName }}</td>
               </tr>
               <tr>
                 <th scope="row">Fecha de reserva</th>
-                <td colspan="2">{{ reservation.date}}</td>
+                <td colspan="2">{{ reservation.date }}</td>
               </tr>
               <tr>
-                <th scope="row">Precio </th>
-                <td colspan="2">{{ reservation.price}}</td>
+                <th scope="row">Precio</th>
+                <td colspan="2">{{ reservation.price }}</td>
               </tr>
             </tbody>
           </table>
 
-          <button v-on:click="succes" class="btn btn-danger w-100">
+          <button
+            v-on:click="deleteReservation(reservation.idTravel, reservation.id)"
+            class="btn btn-danger w-100"
+          >
             Cancelar Reserva
           </button>
         </div>
-        <div class="card-footer text-muted"> </div>
+        <div class="card-footer text-muted"></div>
       </div>
     </div>
   </div>
@@ -92,13 +100,13 @@ export default {
             }
           `,
           variables: {
-            idPassenger : this.passenger.id.toString(),
+            idPassenger: this.passenger.id.toString(),
           },
         })
         .then((result) => {
-          console.log(result.data.getReservationByIdPassenger);
           this.reservations = result.data.getReservationByIdPassenger;
           this.formatDate(this.reservations);
+          this.deleteReservation(this.reservations);
         });
     },
     getPassenger: async function () {
@@ -131,9 +139,56 @@ export default {
           this.listReservations();
         })
         .catch((error) => {
-          console.log("Error al solicitar informaciond del usuario", error);
           alert("Error al solicitar informaciond del usuario");
         });
+    },
+    deleteReservation: async function (date, id) {
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            query GetTravelById($getTravelByIdId: String!) {
+              getTravelById(id: $getTravelByIdId) {
+                idTravel
+                idDriver
+                nameDriver
+                fromPlace
+                toPlace
+                passThrough
+                published
+                price
+                dateTravel
+                seats
+              }
+            }
+          `,
+          variables: {
+            getTravelByIdId: date,
+          },
+        })
+        .then((result) => {
+          var dateTravel = result.data.getTravelById.dateTravel;
+          var actualDate = new Date();
+          actualDate = moment(actualDate).format();
+          if (dateTravel > actualDate) {
+            this.$apollo
+              .mutate({
+                mutation: gql`
+                  mutation DeleteReservation($idReservation: String!) {
+                    deleteReservation(idReservation: $idReservation)
+                  }
+                `,
+                variables: {
+                  idReservation: id,
+                },
+              })
+              .then((result) => {
+                this.$emit("success", result);
+              });
+          } else {
+            alert("No es posible cancelar la reserva");
+          }
+        });
+      
     },
     formatDate: function (reservations) {
       for (let i in reservations) {
@@ -149,7 +204,7 @@ export default {
 };
 </script>
 
-<style >
+<style>
 .title {
   text-align: right;
 }
