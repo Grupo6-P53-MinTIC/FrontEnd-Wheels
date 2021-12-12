@@ -103,7 +103,7 @@
               type="number"
               min="1"
               :max="travelSelected.seats"
-              :value='seats'
+              :value="seats"
             />
           </div>
           <table class="table table-striped table-hover align-middle">
@@ -222,7 +222,9 @@
           <button
             v-on:click="generateReservation(travelSelected)"
             type="button"
-            class="btn btn-primary" data-bs-dismiss="modal" >
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+          >
             Confirmar y pagar ${{ travelSelected.price }}
           </button>
         </div>
@@ -246,13 +248,13 @@ export default {
       reservation: {},
       passenger: {},
       driver: {},
-      seats: 1
+      seats: 1,
     };
   },
   methods: {
     reservationDetail: function (travel) {
       this.travelSelected = travel;
-      this.getDriver(travel.idDriver)
+      this.getDriver(travel.idDriver);
     },
     listTravels: async function () {
       await this.$apollo
@@ -315,6 +317,7 @@ export default {
     },
     formatDate: function (travels) {
       for (let i in travels) {
+        travels[i].dateTravelNoFormat = travels[i].dateTravel;
         var dateTravel = new Date(travels[i].dateTravel);
         var published = new Date(travels[i].published);
         dateTravel = moment(dateTravel).calendar();
@@ -396,10 +399,15 @@ export default {
     },
     generateReservation: async function (travel) {
       this.reservation.idTravel = travel.idTravel;
-      this.reservation.usernameDriver = this.driver.username;
-      this.reservation.usernamePassenger = this.passenger.username;
+      this.reservation.idDriver = this.driver.id.toString();
+      this.reservation.idPassenger = this.passenger.id.toString();
+      this.reservation.toPlace = travel.toPlace;
+      this.reservation.fromPlace = travel.fromPlace;
+      this.reservation.price = travel.price;
       this.reservation.seats = this.seats;
+      this.reservation.dateTravel = travel.dateTravelNoFormat;
 
+      console.log(this.reservation);
       await this.$apollo
         .mutate({
           mutation: gql`
@@ -407,10 +415,14 @@ export default {
               addReservation(reservation: $reservation) {
                 id
                 idTravel
-                usernameDriver
-                usernamePassenger
+                idDriver
+                idPassenger
+                toPlace
+                fromPlace
+                price
                 seats
                 state
+                dateTravel
                 date
               }
             }
@@ -421,7 +433,7 @@ export default {
         })
         .then((result) => {
           this.listTravels();
-          this.$emit("success",result);
+          this.$emit("success", result);
         })
         .catch((error) => {
           console.log("Error al generar la reserva", error);
