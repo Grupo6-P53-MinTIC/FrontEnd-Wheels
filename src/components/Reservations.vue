@@ -3,10 +3,10 @@
     <div class="title">
       <h1><b>Tus reservas</b></h1>
     </div>
-    <div v-for="reservation in reservations" class="col-md-3 mt-2">
+    <div  v-for="reservation in reservations" class="col-xl-4 col-md-6 col-sm-12 mt-2">
       <div class="card shadow-lg p-3 mb-5 bg-body rounded border-dark">
-        <div class="card-header fs-3 text">
-          COP <b> ${{ reservation.price }}</b>
+        <div class="card-header fs-6 text">
+          Estado <b> {{ reservation.state }}</b> <br/>
         </div>
         <div class="card-body text-dark">
           <h4
@@ -20,30 +20,33 @@
           <table class="table table-striped table-hover">
             <tbody>
               <tr>
-                <th scope="row">Pasa por:</th>
-                <td>{{ reservation.passThrough }}</td>
+                <th scope="row">Asientos reservados </th>
+                <td> <b>{{ reservation.seats }}</b> </td>
               </tr>
-              <tr>
-                <th scope="row">Asientos</th>
-                <td>{{ reservation.seats }}</td>
-              </tr>
-              <tr>
+              <tr v-if="reservation.driver" >
                 <th scope="row">Conductor</th>
                 <td>{{ reservation.nameDriver }}</td>
               </tr>
+              <tr v-if="passenger" >
+                <th scope="row">Pasajero</th>
+                <td>{{ passenger.name}} {{ passenger.lastName}} </td>
+              </tr>
               <tr>
-                <th scope="row">Cuando?</th>
-                <td colspan="2">{{ reservation.datereservation }}</td>
+                <th scope="row">Fecha de reserva</th>
+                <td colspan="2">{{ reservation.date}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Precio </th>
+                <td colspan="2">{{ reservation.price}}</td>
               </tr>
             </tbody>
           </table>
-          <button v-on:click="succes" class="btn btn-primary w-100 buttonR">
-            Reservar
+
+          <button v-on:click="succes" class="btn btn-danger w-100">
+            Cancelar Reserva
           </button>
         </div>
-        <div class="card-footer text-muted">
-          {{ reservation.published }}
-        </div>
+        <div class="card-footer text-muted"> </div>
       </div>
     </div>
   </div>
@@ -61,6 +64,8 @@ export default {
       reservations: [],
       passenger: {},
       driver: {},
+      travel: {},
+      nowDate: new Date(),
     };
   },
   methods: {
@@ -71,14 +76,15 @@ export default {
       await this.$apollo
         .mutate({
           mutation: gql`
-            query Query($usernamePassenger: String!) {
-              getReservationByUsernamePassenger(
-                usernamePassenger: $usernamePassenger
-              ) {
+            query GetReservationByIdPassenger($idPassenger: String!) {
+              getReservationByIdPassenger(idPassenger: $idPassenger) {
                 id
                 idTravel
-                usernameDriver
-                usernamePassenger
+                idDriver
+                idPassenger
+                toPlace
+                price
+                fromPlace
                 seats
                 state
                 date
@@ -86,45 +92,13 @@ export default {
             }
           `,
           variables: {
-            usernamePassenger: this.passenger.username,
+            idPassenger : this.passenger.id.toString(),
           },
         })
         .then((result) => {
-          console.log(result.data.getReservationByUsernamePassenger);
-          this.reservations = result.data.getReservationByUsernamePassenger;
-          // this.formatDate(this.reservations);
-        });
-    },
-    getTravel: async function () {
-      await this.$apollo
-        .mutate({
-          mutation: gql`
-            query Query($getTravelByIdId: String!) {
-              getTravelById(id: $getTravelByIdId) {
-                idTravel
-                idDriver
-                nameDriver
-                fromPlace
-                toPlace
-                passThrough
-                published
-                dateTravel
-                seats
-                price
-              }
-            }
-          `,
-          variables: {
-            getTravelByIdId: this.travel.idTravel
-          },
-        })
-        .then((result) => {
-          this.passenger = result.data.getUserByToken[0];
-          this.listReservations();
-        })
-        .catch((error) => {
-          console.log("Error al solicitar informaciond del usuario", error);
-          alert("Error al solicitar informaciond del usuario");
+          console.log(result.data.getReservationByIdPassenger);
+          this.reservations = result.data.getReservationByIdPassenger;
+          this.formatDate(this.reservations);
         });
     },
     getPassenger: async function () {
@@ -161,52 +135,11 @@ export default {
           alert("Error al solicitar informaciond del usuario");
         });
     },
-    getDriver: async function (idDriver) {
-      console.log("Entro: idDriver", idDriver);
-      await this.$apollo
-        .mutate({
-          mutation: gql`
-            query Query($userId: Int!) {
-              userDetailById(userId: $userId) {
-                id
-                username
-                password
-                email
-                name
-                lastName
-                birthDate
-                gender
-                documentNumber
-                phoneNumber
-                typeAccount
-              }
-            }
-          `,
-          variables: {
-            userId: parseInt(idDriver),
-          },
-        })
-        .then((result) => {
-          this.driver = result.data.userDetailById;
-        })
-        .catch((error) => {
-          console.log(
-            "El conductor de este viaje no esta registrado en la base de datos",
-            error
-          );
-          alert(
-            "El conductor de este viaje no esta registrado en la base de datos"
-          );
-        });
-    },
     formatDate: function (reservations) {
       for (let i in reservations) {
-        var datereservation = new Date(reservations[i].datereservation);
-        var published = new Date(reservations[i].published);
+        var datereservation = new Date(reservations[i].date);
         datereservation = moment(datereservation).calendar();
-        published = moment(published).calendar();
-        this.reservations[i].datereservation = datereservation;
-        this.reservations[i].published = published;
+        this.reservations[i].date = datereservation;
       }
     },
   },
