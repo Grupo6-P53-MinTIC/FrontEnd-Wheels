@@ -7,7 +7,7 @@
             <thead>
               <tr>
                 <th scope="col" class="fs-5">{{ travel.from_place }} <i class="fas fa-long-arrow-alt-right"></i>
-            {{ travel.to_place }}</th>
+                {{ travel.to_place }}</th>
               <th class="text-end fs-5"><i @click="deleteTravel(travel.id)"  class="fas fa-trash" style="color:red"></i></th>
               </tr>
             </thead>
@@ -44,7 +44,6 @@
                 <td v-if="edit_pass_through">
                   <input type="text" v-model="travel.pass_through" />
                 </td>
-
                 <td>
                   <i
                     @click="edit_pass_through = !edit_pass_through; "
@@ -58,7 +57,6 @@
                 <td v-if="edit_seats">
                   <input type="number" v-model="travel.seats" />
                 </td>
-
                 <td>
                   <i @click="edit_seats = !edit_seats;" 
                   class="fas fa-pen"></i>
@@ -77,7 +75,6 @@
                     max="2030-10-31T17:22:29Z"
                   />
                 </td>
-
                 <td>
                   <i
                     @click="edit_date_travel = !edit_date_travel;"

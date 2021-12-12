@@ -60,11 +60,11 @@ export default {
       .mutate({
         mutation: gql`
           mutation Mutation($credentials: CredentialsInput) {
-          logIn(credentials: $credentials) {
-            refresh
-            access
+            logIn(credentials: $credentials) {
+              refresh
+              access
+            }
           }
-        }
         `,
         variables:{
           credentials: this.user
@@ -72,15 +72,16 @@ export default {
       })
       .then((result) => {
         console.log(result);
-        let dataLogin = {
-          username : this.user.username,
-          token_access : result.data.logIn.access,
-          token_refresh : result.data.logIn.refresh,
-        };
-        this.$emit("successLogin", result);
+        let dataLogIn = {
+          username: this.user.username,
+          token_access: result.data.logIn.access,
+          token_refresh: result.data.logIn.refresh,
+        }
+        console.log(dataLogIn);
+        this.$emit("compleatedLogIn",dataLogIn)
       })
       .catch((error) => {
-          console.error(error);
+          this.error=true;
         })
     }
   },

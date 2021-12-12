@@ -2,7 +2,7 @@
 <div class="row justify-content-end me-lg-5 m-2">
     <div class="col-lg-8 col-sm-12 col-md-8 mt-4 borderR bg-light bg-gradient bg-opacity-50">
       <br>
-      <form v-on:submit.prevent="getUser">
+      <form v-on:submit.prevent="createTravel">
           <table class="table  table-striped table-hover">
             <thead>
               <tr>
@@ -11,48 +11,21 @@
             </thead>
             <tbody>
               <tr>
+                <th scope="row">nombre del conductor</th>
+                <td>
+                  <input type="text" v-model="dataTravel.nameDriver"/>
+                </td>
+              </tr>
+              <tr>
                 <th scope="row">Sale desde</th>
                 <td>
                   <select
-                    v-model="dataTravel.from_place"
+                    v-model="dataTravel.fromPlace"
                     class="form-control"
                     id="inputCiudadLine2"
                   >
                     <option value="">Seleccione lugar de origen</option>
-                    <option value="Arauca">Arauca</option>
-                    <option value="Armenia">Armenia</option>
-                    <option value="Barranquilla">Barranquilla</option>
-                    <option value="Bogotá">Bogotá</option>
-                    <option value="Bucaramanga">Bucaramanga</option>
-                    <option value="Cali">Cali</option>
-                    <option value="Cartagena">Cartagena</option>
-                    <option value="Cúcuta">Cúcuta</option>
-                    <option value="Florencia">Florencia</option>
-                    <option value="Ibagué">Ibagué</option>
-                    <option value="Leticia">Leticia</option>
-                    <option value="Manizales">Manizales</option>
-                    <option value="Medellín">Medellín</option>
-                    <option value="Mitú">Mitú</option>
-                    <option value="Mocoa">Mocoa</option>
-                    <option value="Montería">Montería</option>
-                    <option value="Neiva">Neiva</option>
-                    <option value="Pasto">Pasto</option>
-                    <option value="Pereira">Pereira</option>
-                    <option value="Popayán">Popayán</option>
-                    <option value="Puerto Carreño">Puerto Carreño</option>
-                    <option value="Puerto Inírida">Puerto Inírida</option>
-                    <option value="Quibdó">Quibdó</option>
-                    <option value="Riohacha">Riohacha</option>
-                    <option value="San Andrés">San Andrés</option>
-                    <option value="San José del Guaviare">
-                      San José del Guaviare
-                    </option>
-                    <option value="Santa Marta">Santa Marta</option>
-                    <option value="Sincelejo">Sincelejo</option>
-                    <option value="Tunja">Tunja</option>
-                    <option value="Valledupar">Valledupar</option>
-                    <option value="Villavicencio">Villavicencio</option>
-                    <option value="Yopal">Yopal</option>
+                    <option v-for="city in getAllCities" :value='city.nameCity'>{{city.nameCity}}</option>
                   </select>
                 </td>
               </tr>
@@ -60,52 +33,26 @@
                 <th scope="row">Llega hasta</th>
                 <td>
                   <select
-                    v-model="dataTravel.to_place"
+                    v-model="dataTravel.toPlace"
                     class="form-control"
                     id="inputCiudadLine2"
                   >
                     <option value="">Seleccione lugar de llegada</option>
-                    <option value="Arauca">Arauca</option>
-                    <option value="Armenia">Armenia</option>
-                    <option value="Barranquilla">Barranquilla</option>
-                    <option value="Bogotá">Bogotá</option>
-                    <option value="Bucaramanga">Bucaramanga</option>
-                    <option value="Cali">Cali</option>
-                    <option value="Cartagena">Cartagena</option>
-                    <option value="Cúcuta">Cúcuta</option>
-                    <option value="Florencia">Florencia</option>
-                    <option value="Ibagué">Ibagué</option>
-                    <option value="Leticia">Leticia</option>
-                    <option value="Manizales">Manizales</option>
-                    <option value="Medellín">Medellín</option>
-                    <option value="Mitú">Mitú</option>
-                    <option value="Mocoa">Mocoa</option>
-                    <option value="Montería">Montería</option>
-                    <option value="Neiva">Neiva</option>
-                    <option value="Pasto">Pasto</option>
-                    <option value="Pereira">Pereira</option>
-                    <option value="Popayán">Popayán</option>
-                    <option value="Puerto Carreño">Puerto Carreño</option>
-                    <option value="Puerto Inírida">Puerto Inírida</option>
-                    <option value="Quibdó">Quibdó</option>
-                    <option value="Riohacha">Riohacha</option>
-                    <option value="San Andrés">San Andrés</option>
-                    <option value="San José del Guaviare">
-                      San José del Guaviare
-                    </option>
-                    <option value="Santa Marta">Santa Marta</option>
-                    <option value="Sincelejo">Sincelejo</option>
-                    <option value="Tunja">Tunja</option>
-                    <option value="Valledupar">Valledupar</option>
-                    <option value="Villavicencio">Villavicencio</option>
-                    <option value="Yopal">Yopal</option>
+                    <option v-for="city in getAllCities" :value='city.nameCity' >{{city.nameCity}}</option>
                   </select>
                 </td>
               </tr>
               <tr>
                 <th scope="row">Pasa por</th>
                 <td>
-                  <input type="text" v-model="dataTravel.pass_through" />
+                  <select
+                    v-model="dataTravel.passThrough"
+                    class="form-control"
+                    id="inputCiudadLine2"
+                  >
+                    <option value="">Seleccione lugar</option>
+                    <option v-for="city in getAllCities" :value='city.nameCity'>{{city.nameCity}}</option>
+                  </select>
                 </td>
               </tr>
               <tr>
@@ -114,11 +61,14 @@
                   <input type="number" v-model="dataTravel.seats" />
                 </td>
               </tr>
+
+              
+
               <tr>
                 <th scope="row">Cuando sale?</th>
                 <td>
                   <input
-                    v-model="dataTravel.date_travel"
+                    v-model="dataTravel.dateTravel"
                     type="datetime-local"
                     id="meeting-time"
                     name="meeting-time"
@@ -153,26 +103,86 @@
 </template>
 
 <script>
+import gql from 'graphql-tag';
+import jwt_decode from "jwt-decode";
 export default {
   name: "createTravel",
   data: function () {
     return {
       dataTravel: {
-        id_manager: null,
-        from_place: "",
-        to_place: "",
-        pass_through: "",
-        date_travel: "",
-        seats: null,
-        price: null,
+        idDriver    : jwt_decode(localStorage.getItem("token_refresh")).user_id,
+        nameDriver  : "",
+        fromPlace   : "",
+        toPlace     : "",
+        passThrough : "",
+        published   : "",
+        dateTravel  : "",
+        seats       : "",
+        price       : "",
       },
+      getAllCities: [],
     };
+  },
+  apollo:{
+    getAllCities: {
+      query: gql`
+        query Query {
+          getAllCities {
+            codeCity
+            nameCity
+          }
+        }
+      `,
+      variables(){
+        return {}
+      }
+    }
   },
   methods: {
     getUser: function () {},
-    createTravel: function () {},
+
+    createTravel: async function () {
+      this.dataTravel.seats = this.dataTravel.seats.toString();
+      this.dataTravel.price = this.dataTravel.price.toString();
+      this.dataTravel.idDriver = this.dataTravel.idDriver.toString();
+      this.dataTravel.published = new Date();
+
+      console.log(this.dataTravel);
+      await this.$apollo
+      .mutate({
+        mutation: gql`
+          mutation SignUpUser($travel: TravelInput!) {
+            addTravel(travel: $travel) {
+              idTravel
+              idDriver
+              nameDriver
+              fromPlace
+              toPlace
+              passThrough
+              published
+              dateTravel
+              seats
+              price
+            }
+          }
+        `,
+        variables:{
+          travel: this.dataTravel
+        }
+      })
+      .then((result)=>{
+        console.log(result);
+        this.$emit("success",result);
+      })
+      .catch((error)=>{
+        console.log(error);
+        alert("f mi perro");
+      })
+    },
   },
-  created: function () {},
+  created: function () {
+    this.$apollo.queries.getAllCities.refetch();
+  },
 };
 </script>
 

@@ -15,9 +15,7 @@
     <nav
       class="
         navbar navbar-expand-lg navbar-light
-        bg-secondary bg-gradient bg-opacity-10
-      "
-    >
+        bg-secondary bg-gradient bg-opacity-10">
       <div class="container-fluid">
         <a class="navbar-brand wheels fs-3" href="/">Wheels</a>
         <button
@@ -54,7 +52,11 @@
               <i class="fab fa-creative-commons-by"></i>
               Mis viajes
             </button>
+<<<<<<< HEAD
             <button v-if="is_auth" v-on:click="listReservations">
+=======
+            <button v-if="is_auth" v-on:click="loadReservations">
+>>>>>>> 30719cb8cd4aa4d8bda6e69365908a360a243ac5
               <i class="fab fa-creative-commons-by"></i>
               Mis reservas
             </button>
@@ -68,11 +70,12 @@
     <div class="main-component bc">
       <router-view
         v-on:loadRegister="loadRegister"
-        v-on:successRegister="loadLogin"
+        v-on:compleatedLogIn="compleatedLogIn"
         v-on:successLogin="successLogin"
         v-on:loadDetails="loadDetails"
         v-on:listReservations="listReservations"
         v-on:success="successAlert"
+        v-on:loadReservation="loadReservation"
         v-on:fail="fail"
       >
       </router-view>
@@ -81,7 +84,7 @@
 </template>
 
 <script>
-
+import travels_home from "@/components/Travel_home"
 export default {
   name: "App",
   data: function () {
@@ -132,6 +135,14 @@ export default {
         this.loadLogin();
       }
     },
+    loadReservations: function (idTravel) {
+      if (this.is_auth) {
+        this.$router.push({ name: "reservations" });
+        }
+      else {
+        this.loadLogin();
+      }
+    },
     loadCreateTravel: function () {
       if (this.is_auth) this.$router.push({ name: "createTravel" });
       else {
@@ -150,6 +161,14 @@ export default {
       localStorage.setItem("token", response.data.key);
       this.verifyAuth();
     },
+    compleatedLogIn: function (data){
+      localStorage.setItem("is_auth", true);
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("token_access", data.token_access);
+      localStorage.setItem("token_refresh", data.token_refresh);
+      this.verifyAuth();
+      this.successAlert();
+    }
   },
   created: function () {
     this.verifyAuth();
