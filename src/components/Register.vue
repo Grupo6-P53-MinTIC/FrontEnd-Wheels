@@ -33,6 +33,7 @@
         <div class="mb-3">
           <input
             class="inputR"
+            v-model="password2"
             type="password"
             placeholder="Confirma contraseña"
             required="true"
@@ -44,8 +45,7 @@
             class="inputR"
             v-model="user.name"
             type="text"
-            placeholder="nombre del pasagero"
-            required="true"
+            placeholder="nombre del pasajero"
           />
         </div>
         <div class="mb-3">
@@ -53,7 +53,7 @@
             class="inputR"
             v-model="user.lastName"
             type="text"
-            placeholder="apellido del pasagero"
+            placeholder="apellido del pasajero"
             required="true"
           />
         </div>
@@ -98,32 +98,20 @@
 
         <div class="text-center">
           <div class="buttons">
-            <button
-              type="button"
-              class="btn btn-primary buttonR w-lg-50"
-              v-on:click="driverf"
-            >
-              conductor
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary buttonR w-lg-50"
-              v-on:click="pasajerof"
-            >
-              pasajero
-            </button>
+            <button type="button" class="btn btn-primary buttonR w-lg-50" v-on:click="driverf">conductor</button>
+            <button type="button" class="btn btn-primary buttonR w-lg-50" v-on:click="pasajerof">pasajero</button>
           </div>
         </div>
 
         <div id="Driver">
           <br />
-          <h4 class="text-center"><b>Placa del vehiculo</b></h4>
+          <h4 class="text-center"><b>informacion del vehiculo</b></h4>
           <div class="mb-3">
             <input
               class="inputR"
               v-model="car.carRegistrationNumber"
               type="text"
-              placeholder="numero de licencia de conduccion"
+              placeholder="Placa de vehiculo"
             />
           </div>
           <div class="mb-3">
@@ -132,7 +120,6 @@
               v-model="car.licenseNumber"
               type="text"
               placeholder="numero de licencia de conduccion"
-              required="true"
             />
           </div>
           <div class="mb-3">
@@ -141,7 +128,6 @@
               v-model="car.color"
               type="text"
               placeholder="color del vehiculo"
-              required="true"
             />
           </div>
           <div class="mb-3">
@@ -150,7 +136,6 @@
               v-model="car.brand"
               type="text"
               placeholder="marca del vehiculo"
-              required="true"
             />
           </div>
           <div class="mb-3">
@@ -159,7 +144,6 @@
               v-model="car.model"
               type="text"
               placeholder="modelo del vehiculo"
-              required="true"
             />
           </div>
           <div class="mb-3">
@@ -168,7 +152,6 @@
               v-model="car.description"
               type="text"
               placeholder="descripcion del vehiculo"
-              required="true"
             />
           </div>
         </div>
@@ -222,6 +205,7 @@ export default {
         description: "",
         equipament: "PU",
       },
+      password2: "",
       error: false,
       passwordDontMatch: false,
     };
@@ -234,39 +218,74 @@ export default {
     },
     pasajerof: function(){
       this.user.typeAccount = "P";
+      console.log(this.user.typeAccount)
       document.getElementById("Driver").style.display = 'none';
     },
     registerUser: async function () {
-      if (this.user.typeAccount == "D") {
-        this.user.car = this.car; // Si es Driver se agrega el objeto car
-      }else if(this.user.typeAccount == "D" && this.user.hasOwnProperty("car")){
-        delete this.user.car; //Si es pasajero se elimina el objeto car de ser necesario
-      }
-      console.log(this.user);
-      await this.$apollo
-        .mutate({
-          mutation: gql`
-            mutation Mutation($userInput: SignUpInput) {
-              signUpUser(userInput: $userInput) {
-                access
-                refresh
-              }
+      if(this.user.password = this.password2){
+        if (this.user.typeAccount == "D") {
+          this.user.car = this.car;
+          console.log(this.user);
+          await this.$apollo
+            .mutate({
+              mutation: gql`
+                mutation Mutation($userInput: SignUpInput) {
+                  signUpUser(userInput: $userInput) {
+                    access
+                    refresh
+                  }
+                }
+              `,
+              variables: {
+                userInput: this.user,
+              },
             }
-          `,
-          variables: {
-            userInput: this.user,
-          },
+            ).then((result) => {
+              console.log(result)
+              this.$emit("success",result);
+            })
+            .catch((error) => {
+              console.log(error);
+              this.error = true;
+            });
         }
-        ).then((result) => {
-          this.$emit("success",result);
-        })
-        .catch((error) => {
-          console.log(error);
-          this.error = true;
-        });
+        else if(this.user.typeAccount == "P"){
+          console.log(this.user);
+          await this.$apollo
+            .mutate({
+              mutation: gql`
+                mutation Mutation($userInput: SignUpInput) {
+                  signUpUser(userInput: $userInput) {
+                    access
+                    refresh
+                  }
+                }
+              `,
+              variables: {
+                userInput: this.user,
+              },
+            }
+            ).then((result) => {
+              console.log(result)
+              this.$emit("success",result);
+            })
+            .catch((error) => {
+              console.log(error);
+              this.error = true;
+            });
+        }
+
+      }
+      else{
+        this.passwordDontMatch = true;
+      }
     },
   },
   created: function () {},
 };
 </script>
-
+<style>
+#Driver{
+  display: none;
+}
+</style>

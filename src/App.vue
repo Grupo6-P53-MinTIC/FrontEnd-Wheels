@@ -60,7 +60,7 @@
     <div class="main-component bc">
       <router-view
         v-on:loadRegister="loadRegister"
-        v-on:successRegister="loadLogin"
+        v-on:compleatedLogIn="compleatedLogIn"
         v-on:successLogin="successLogin"
         v-on:success="successAlert"
         v-on:loadReservation="loadReservation"
@@ -143,6 +143,14 @@ export default {
       localStorage.setItem("token", response.data.key);
       this.verifyAuth();
     },
+    compleatedLogIn: function (data){
+      localStorage.setItem("is_auth", true);
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("token_access", data.token_access);
+      localStorage.setItem("token_refresh", data.token_refresh);
+      this.verifyAuth();
+      this.successAlert();
+    }
   },
   created: function () {
     this.verifyAuth();
