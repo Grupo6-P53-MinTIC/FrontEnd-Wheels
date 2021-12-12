@@ -64,8 +64,10 @@
         v-on:loadRegister="loadRegister"
         v-on:compleatedLogIn="compleatedLogIn"
         v-on:successLogin="successLogin"
+        v-on:loadDetails="loadDetails"
+        v-on:listReservations="listReservations"
         v-on:success="successAlert"
-        v-on:loadReservation="loadReservation"
+        v-on:loadReservations="loadReservations"
         v-on:fail="fail"
       >
       </router-view>
@@ -113,13 +115,16 @@ export default {
     loadRegister: function () {
       this.$router.push({ name: "register" });
     },
+    loadDetails: function () {
+      this.$router.push({ name: "travelDetails" });
+    },
     loadEditTravel: function () {
       if (this.is_auth) this.$router.push({ name: "editTravel" });
       else {
         this.loadLogin();
       }
     },
-    loadReservations: function (idTravel) {
+    loadReservations: function () {
       if (this.is_auth) {
         this.$router.push({ name: "reservations" });
         }
