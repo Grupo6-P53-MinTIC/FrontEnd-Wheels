@@ -74,7 +74,6 @@
 </template>
 
 <script>
-import travels_home from "@/components/Travel_home"
 export default {
   name: "App",
   data: function () {
