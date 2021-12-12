@@ -52,11 +52,7 @@
               <i class="fab fa-creative-commons-by"></i>
               Mis viajes
             </button>
-<<<<<<< HEAD
-            <button v-if="is_auth" v-on:click="listReservations">
-=======
-            <button v-if="is_auth" v-on:click="loadReservations">
->>>>>>> 30719cb8cd4aa4d8bda6e69365908a360a243ac5
+            <button v-if="is_auth" v-on:click="loadReservation">
               <i class="fab fa-creative-commons-by"></i>
               Mis reservas
             </button>
@@ -125,9 +121,6 @@ export default {
     },
     loadDetails: function () {
       this.$router.push({ name: "travelDetails" });
-    },
-    listReservations: function () {
-      this.$router.push({ name: "myReservations" });
     },
     loadEditTravel: function () {
       if (this.is_auth) this.$router.push({ name: "editTravel" });
