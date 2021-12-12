@@ -317,6 +317,7 @@ export default {
     },
     formatDate: function (travels) {
       for (let i in travels) {
+        travels[i].dateTravelNoFormat = travels[i].dateTravel;
         var dateTravel = new Date(travels[i].dateTravel);
         var published = new Date(travels[i].published);
         dateTravel = moment(dateTravel).calendar();
@@ -397,13 +398,14 @@ export default {
         });
     },
     generateReservation: async function (travel) {
-      this.reservation.idTravel     = travel.idTravel;
-      this.reservation.idDriver     = this.driver.id.toString();
-      this.reservation.idPassenger  = this.passenger.id.toString();
-      this.reservation.toPlace      = travel.toPlace;
-      this.reservation.fromPlace    = travel.fromPlace;
-      this.reservation.price        = travel.price;
-      this.reservation.seats        = this.seats;
+      this.reservation.idTravel = travel.idTravel;
+      this.reservation.idDriver = this.driver.id.toString();
+      this.reservation.idPassenger = this.passenger.id.toString();
+      this.reservation.toPlace = travel.toPlace;
+      this.reservation.fromPlace = travel.fromPlace;
+      this.reservation.price = travel.price;
+      this.reservation.seats = this.seats;
+      this.reservation.dateTravel = travel.dateTravelNoFormat;
 
       console.log(this.reservation);
       await this.$apollo
@@ -420,6 +422,7 @@ export default {
                 price
                 seats
                 state
+                dateTravel
                 date
               }
             }
