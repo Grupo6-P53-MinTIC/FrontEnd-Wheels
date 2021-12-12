@@ -40,7 +40,11 @@
               <i class="fas fa-pager"></i>
               Regístrate
             </button>
-            <button v-if="is_auth" v-on:click="loadCreateTravel">
+            <button  v-on:click="loadAddCities" style="backgroundColor: yellow;">
+              <i class="fas fa-plus-square"></i>
+              Agregar ciudades
+            </button>
+            <button v-if="is_auth" v-on:click="loadCreateTravel"  >
               <i class="fas fa-plus-square"></i>
               Publicar viaje
             </button>
@@ -137,6 +141,9 @@ export default {
         this.loadLogin();
       }
     },
+    loadAddCities: function () {
+      this.$router.push({ name: "addCities" });
+    },
     loadTravelHome: function () {
       if (this.is_auth) this.$router.push({ name: "travels_home" });
       else {
@@ -155,7 +162,6 @@ export default {
       localStorage.setItem("token_access", data.token_access);
       localStorage.setItem("token_refresh", data.token_refresh);
       this.verifyAuth();
-      this.successAlert();
     }
   },
   created: function () {

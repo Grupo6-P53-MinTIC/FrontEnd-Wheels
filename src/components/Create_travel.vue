@@ -11,12 +11,6 @@
             </thead>
             <tbody>
               <tr>
-                <th scope="row">nombre del conductor</th>
-                <td>
-                  <input type="text" v-model="dataTravel.nameDriver"/>
-                </td>
-              </tr>
-              <tr>
                 <th scope="row">Sale desde</th>
                 <td>
                   <select
@@ -61,9 +55,6 @@
                   <input type="number" v-model="dataTravel.seats" />
                 </td>
               </tr>
-
-              
-
               <tr>
                 <th scope="row">Cuando sale?</th>
                 <td>
@@ -109,15 +100,16 @@ export default {
   name: "createTravel",
   data: function () {
     return {
+      user:{},
       dataTravel: {
-        idDriver    : jwt_decode(localStorage.getItem("token_refresh")).user_id,
+        idDriver    : "",
         nameDriver  : "",
         fromPlace   : "",
         toPlace     : "",
         passThrough : "",
         published   : "",
         dateTravel  : "",
-        seats       : "",
+        seats       : "1",
         price       : "",
       },
       getAllCities: [],
@@ -139,15 +131,47 @@ export default {
     }
   },
   methods: {
-    getUser: function () {},
+    getUser: async function () {
+      let token= localStorage.getItem('token_access');
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation Mutation($token: String!) {
+              getUserByToken(token: $token) {
+                id
+                username
+                password
+                email
+                name
+                lastName
+                birthDate
+                gender
+                documentNumber
+                phoneNumber
+                typeAccount
+              }
+            }
+          `,
+          variables: {
+            token,
+          },
+        })
+        .then((result) => {
+          this.user = result.data.getUserByToken[0];
+        })
+        .catch((error) => {
+          console.log("Error al solicitar informaciond del usuario", error);
+          alert("Error al solicitar informaciond del usuario");
+        });
+    },
 
     createTravel: async function () {
-      this.dataTravel.seats = this.dataTravel.seats.toString();
-      this.dataTravel.price = this.dataTravel.price.toString();
-      this.dataTravel.idDriver = this.dataTravel.idDriver.toString();
-      this.dataTravel.published = new Date();
+      this.dataTravel.seats =       this.dataTravel.seats.toString();
+      this.dataTravel.price =       this.dataTravel.price.toString();
+      this.dataTravel.published =   new Date();
+      this.dataTravel.idDriver =    this.user.id.toString();
+      this.dataTravel.nameDriver =  this.user.name;
 
-      console.log(this.dataTravel);
       await this.$apollo
       .mutate({
         mutation: gql`
@@ -176,12 +200,13 @@ export default {
       })
       .catch((error)=>{
         console.log(error);
-        alert("f mi perro");
+        alert("Error al crear el viaje");
       })
     },
   },
   created: function () {
-    this.$apollo.queries.getAllCities.refetch();
+    this.getUser();
+    // this.$apollo.queries.getAllCities.refetch();
   },
 };
 </script>

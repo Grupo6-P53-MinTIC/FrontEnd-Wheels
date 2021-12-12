@@ -48,8 +48,8 @@ export default {
   data: function () {
     return {
       user: {
-        username: "",
-        password: "",
+        username: "salvador",
+        password: "pruebaPass1",
       },
       error: false,
     };
@@ -71,7 +71,6 @@ export default {
         }
       })
       .then((result) => {
-        console.log(result);
         let dataLogIn = {
           username: this.user.username,
           token_access: result.data.logIn.access,

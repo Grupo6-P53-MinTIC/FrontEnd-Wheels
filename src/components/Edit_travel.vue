@@ -130,7 +130,7 @@ export default {
   name: "editTravel",
   data: function () {
     return {
-      user: "",
+      user: {},
       idUser: [],
       travels: [],
       edit_fromPlace: false,
@@ -152,6 +152,7 @@ export default {
   },
   methods: {
     getUser: async function () {
+      let token= localStorage.getItem('token_access');
       await this.$apollo
         .mutate({
           mutation: gql`
@@ -172,21 +173,19 @@ export default {
             }
           `,
           variables: {
-            token:
-              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjM5MzUyOTMyLCJqdGkiOiJlY2U5MzVkNDBmY2Y0NzAzOGJmMjE5ZDEzMmM0OTUxMSIsInVzZXJfaWQiOjJ9.bHdMdoYoyaScwibowW1JwnoqcWo_hFcb05W_2x2Bzes",
+            token,
           },
         })
         .then((result) => {
           this.user = result.data.getUserByToken[0];
-          this.getTravel(this.user.id);
+          this.getTravel();
         })
         .catch((error) => {
           console.log("Error al solicitar informaciond del usuario", error);
           alert("Error al solicitar informaciond del usuario");
         });
     },
-    getTravel: async function (id) {
-      id = id.toString();
+    getTravel: async function () {
       await this.$apollo
         .mutate({
           mutation: gql`
@@ -206,7 +205,7 @@ export default {
             }
           `,
           variables: {
-            idDriver: id,
+            idDriver: this.user.id.toString(),
           },
         })
         .then((result) => {
@@ -279,7 +278,7 @@ export default {
           this.edit_seats= false;
           this.edit_price= false;
           this.getTravel();
-          alert("Succes");
+          this.$emit("success",result);
         })
         .catch((error) => {
           console.log("Error al eliminar el viaje", error);

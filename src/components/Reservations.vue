@@ -110,6 +110,7 @@ export default {
         });
     },
     getPassenger: async function () {
+      let token= localStorage.getItem('token_access');
       await this.$apollo
         .mutate({
           mutation: gql`
@@ -130,8 +131,7 @@ export default {
             }
           `,
           variables: {
-            token:
-              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjM5MzUyOTMyLCJqdGkiOiJlY2U5MzVkNDBmY2Y0NzAzOGJmMjE5ZDEzMmM0OTUxMSIsInVzZXJfaWQiOjJ9.bHdMdoYoyaScwibowW1JwnoqcWo_hFcb05W_2x2Bzes",
+            token,
           },
         })
         .then((result) => {
