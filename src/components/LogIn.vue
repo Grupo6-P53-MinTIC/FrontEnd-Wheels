@@ -48,8 +48,8 @@ export default {
   data: function () {
     return {
       user: {
-        username: "salvador",
-        password: "pruebaPass1",
+        username: "",
+        password: "",
       },
       error: false,
     };
@@ -60,11 +60,11 @@ export default {
       .mutate({
         mutation: gql`
           mutation Mutation($credentials: CredentialsInput) {
-          logIn(credentials: $credentials) {
-            refresh
-            access
+            logIn(credentials: $credentials) {
+              refresh
+              access
+            }
           }
-        }
         `,
         variables:{
           credentials: this.user
@@ -72,7 +72,13 @@ export default {
       })
       .then((result) => {
         console.log(result);
-        this.$emit("successLogin", result);
+        let dataLogIn = {
+          username: this.user.username,
+          token_access: result.data.logIn.access,
+          token_refresh: result.data.logIn.refresh,
+        }
+        console.log(dataLogIn);
+        this.$emit("compleatedLogIn",dataLogIn)
       })
       .catch((error) => {
           this.error=true;
