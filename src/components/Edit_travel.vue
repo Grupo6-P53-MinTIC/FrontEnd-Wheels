@@ -1,147 +1,291 @@
 <template>
-  <div class="bc_patron">
-    <div class="row bg-secondary bg-light bg-opacity-50" >
-      <div class="col-5 col-md-5  blur shadow-lg p-3 bg-body rounded border-dark me-3" v-for="travel in travels">
+  <div class="row bc_patron bg-light.bg-gradient">
+    <div class="title">
+      <h1><b>Tus viajes publicados </b></h1>
+    </div>
+    <div v-for="travel in travels" class="col-md-6 col-sm-6 mt-2">
+      <div class="card shadow-lg mb-5 bg-body rounded border-secondary">
         <form v-on:submit.prevent="editTravel(dataTravel.id)">
+
+        <div class="card-header fs-5 text">
+          <h3  class="card-title d-flex justify-content-between align-items-center">
+            {{ travel.fromPlace }}<i class="fas fa-long-arrow-alt-right"></i
+            >{{ travel.toPlace }}
+            <i @click="deleteTravel(travel.idTravel)"
+            class="fas fa-trash"
+            style="color: red; fontSize: 24px;" ></i>
+          </h3>
+        </div>
+
+        <div class="card-body text-dark">
           <table class="table table-striped table-hover">
-            <thead>
-              <tr>
-                <th scope="col" class="fs-5">{{ travel.from_place }} <i class="fas fa-long-arrow-alt-right"></i>
-                {{ travel.to_place }}</th>
-              <th class="text-end fs-5"><i @click="deleteTravel(travel.id)"  class="fas fa-trash" style="color:red"></i></th>
-              </tr>
-            </thead>
             <tbody>
               <tr>
-                <th scope="row">Desde</th>
-                <td v-if="!edit_from_place">{{ travel.from_place }}</td>
-                <td v-if="edit_from_place">
-                   <input id="from_place" type="text" v-model="travel.from_place"/>
-                </td>
-                <td>
-                  <i
-                    @click="edit_from_place = !edit_from_place;"
-                    class="fas fa-pen"
-                  ></i>
-                </td>
+              <th scope="row">Desde</th>
+              <td v-if="!edit_fromPlace">{{ travel.fromPlace }}</td>
+              <td v-if="edit_fromPlace">
+                <input id="fromPlace" type="text" v-model="travel.fromPlace" />
+              </td>
+              <td>
+                <i
+                  @click="edit_fromPlace = !edit_fromPlace"
+                  class="fas fa-pen"
+                ></i>
+              </td>
               </tr>
               <tr>
-                <th scope="row">Hasta</th>
-                <td v-if="!edit_to_place">{{ travel.to_place }}</td>
-                <td v-if="edit_to_place">
-                  <input type="text" v-model="travel.to_place" />
-                </td>
-                <td>
-                  <i
-                    @click="edit_to_place = !edit_to_place;"
-                    class="fas fa-pen"
-                  ></i>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Pasa por</th>
-                <td v-if="!edit_pass_through">{{ travel.pass_through }}</td>
-                <td v-if="edit_pass_through">
-                  <input type="text" v-model="travel.pass_through" />
-                </td>
-                <td>
-                  <i
-                    @click="edit_pass_through = !edit_pass_through; "
-                    class="fas fa-pen"
-                  ></i>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Asientos disponibles</th>
-                <td v-if="!edit_seats">{{ travel.seats }}</td>
-                <td v-if="edit_seats">
-                  <input type="number" v-model="travel.seats" />
-                </td>
-                <td>
-                  <i @click="edit_seats = !edit_seats;" 
-                  class="fas fa-pen"></i>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Sale</th>
-                <td v-if="!edit_date_travel">{{ travel.date_travel }}</td>
-                <td v-if="edit_date_travel">
-                  <input
-                    v-model="travel.date_travel"
-                    type="datetime-local"
-                    id="meeting-time"
-                    name="meeting-time"
-                    min="2021-10-31T17:22:29Z"
-                    max="2030-10-31T17:22:29Z"
-                  />
-                </td>
-                <td>
-                  <i
-                    @click="edit_date_travel = !edit_date_travel;"
-                    class="fas fa-pen"
-                  ></i>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Precio</th>
-                <td v-if="!edit_price">COP ${{ travel.price }}</td>
-                <td v-if="edit_price">
-                  <input type="number" v-model="travel.price" />
-                </td>
+              <th scope="row">Hasta</th>
+              <td v-if="!edit_toPlace">{{ travel.toPlace }}</td>
+              <td v-if="edit_toPlace">
+                <input type="text" v-model="travel.toPlace" />
+              </td>
+              <td>
+                <i @click="edit_toPlace = !edit_toPlace" class="fas fa-pen"></i>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Pasa por</th>
+              <td v-if="!edit_passThrough">{{ travel.passThrough }}</td>
+              <td v-if="edit_passThrough">
+                <input type="text" v-model="travel.passThrough" />
+              </td>
+              <td>
+                <i
+                  @click="edit_passThrough = !edit_passThrough"
+                  class="fas fa-pen"
+                ></i>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Asientos disponibles</th>
+              <td v-if="!edit_seats">{{ travel.seats }}</td>
+              <td v-if="edit_seats">
+                <input type="number" v-model="travel.seats" />
+              </td>
+              <td>
+                <i @click="edit_seats = !edit_seats" class="fas fa-pen"></i>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Sale</th>
+              <td v-if="!edit_dateTravel">{{ travel.dateTravel }}</td>
+              <td v-if="edit_dateTravel">
+                <input
+                  v-model="travel.dateTravel"
+                  type="datetime-local"
+                  id="meeting-time"
+                  name="meeting-time"
+                  min="2021-10-31T17:22:29Z"
+                  max="2030-10-31T17:22:29Z"
+                />
+              </td>
+              <td>
+                <i
+                  @click="edit_dateTravel = !edit_dateTravel"
+                  class="fas fa-pen"
+                ></i>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Precio</th>
+              <td v-if="!edit_price">COP ${{ travel.price }}</td>
+              <td v-if="edit_price">
+                <input type="number" v-model="travel.price" />
+              </td>
 
-                <td>
-                  <i @click="edit_price = !edit_price" class="fas fa-pen"></i>
-                </td>
-              </tr>
+              <td>
+                <i @click="edit_price = !edit_price" class="fas fa-pen"></i>
+              </td>
+            </tr>
             </tbody>
-            <div class="text-center p-2"
-            @click=" dataTravel.date_travel = travel.date_travel;
-              dataTravel.pass_through = travel.pass_through;
-              dataTravel.to_place = travel.to_place;
-               dataTravel.seats = travel.seats;
-               dataTravel.from_place = travel.from_place;
-               dataTravel.price = travel.price;
-              "
-            >
-              <button class="btn btn-primary buttonR mt-4" type="submit">
+          </table>
+          <div
+            class=""
+            @click="
+              dataTravel.dateTravel = travel.dateTravel;
+              dataTravel.passThrough = travel.passThrough;
+              dataTravel.toPlace = travel.toPlace;
+              dataTravel.seats = travel.seats;
+              dataTravel.fromPlace = travel.fromPlace;
+              dataTravel.price = travel.price;
+              dataTravel.idTravel = travel.idTravel;
+            ">
+            <button class="btn btn-primary w-100 buttonR mt-4" type="submit">
               <b>Guardar cambios</b>
             </button>
-            </div>
-          </table>
-        </form>
+          </div>
+        </div>
+      </form>
+      </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
+import gql from "graphql-tag";
+import moment from "moment";
+moment.locale("es");
+
 export default {
   name: "editTravel",
   data: function () {
     return {
+      user: "",
       idUser: [],
       travels: [],
-      edit_from_place: false,
-      edit_to_place: false,
-      edit_pass_through: false,
-      edit_date_travel: false,
+      edit_fromPlace: false,
+      edit_toPlace: false,
+      edit_passThrough: false,
+      edit_dateTravel: false,
       edit_seats: false,
       edit_price: false,
       dataTravel: {
-        from_place: "",
-        to_place: "",
-        pass_through: "",
-        date_travel: "",
+        idTravel: "",
+        fromPlace: "",
+        toPlace: "",
+        passThrough: "",
+        dateTravel: "",
         seats: 1,
         price: 0.0,
       },
     };
   },
   methods: {
-    getUser: function () {},
-    getTravel: function (id) {},
-    editTravel: function () {},
-    deleteTravel: function (id){}
+    getUser: async function () {
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation Mutation($token: String!) {
+              getUserByToken(token: $token) {
+                id
+                username
+                password
+                email
+                name
+                lastName
+                birthDate
+                gender
+                documentNumber
+                phoneNumber
+                typeAccount
+              }
+            }
+          `,
+          variables: {
+            token:
+              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjM5MzUyOTMyLCJqdGkiOiJlY2U5MzVkNDBmY2Y0NzAzOGJmMjE5ZDEzMmM0OTUxMSIsInVzZXJfaWQiOjJ9.bHdMdoYoyaScwibowW1JwnoqcWo_hFcb05W_2x2Bzes",
+          },
+        })
+        .then((result) => {
+          this.user = result.data.getUserByToken[0];
+          this.getTravel(this.user.id);
+        })
+        .catch((error) => {
+          console.log("Error al solicitar informaciond del usuario", error);
+          alert("Error al solicitar informaciond del usuario");
+        });
+    },
+    getTravel: async function (id) {
+      id = id.toString();
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            query GetTravelByDriver($idDriver: String!) {
+              getTravelByDriver(idDriver: $idDriver) {
+                idTravel
+                idDriver
+                nameDriver
+                fromPlace
+                toPlace
+                passThrough
+                published
+                dateTravel
+                seats
+                price
+              }
+            }
+          `,
+          variables: {
+            idDriver: id,
+          },
+        })
+        .then((result) => {
+          this.travels = result.data.getTravelByDriver;
+          // this.formatDate(this.travels);
+        })
+        .catch((error) => {
+          console.log("Error al obtner los viajes de este conductor", error);
+          alert("Error al obtner los viajes de este conductor");
+        });
+    },
+    editTravel: async function () {
+      this.dataTravel.price= this.dataTravel.price.toString();
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation Mutation($travel: TravelUpdateInput!) {
+              updateTravel(travel: $travel) {
+                idTravel
+                idDriver
+                nameDriver
+                fromPlace
+                toPlace
+                passThrough
+                published
+                dateTravel
+                seats
+                price
+              }
+            }
+          `,
+          variables: {
+            travel: this.dataTravel,
+          },
+        })
+        .then((result) => {
+          this.edit_fromPlace= false;
+          this.edit_toPlace= false;
+          this.edit_passThrough= false;
+          this.edit_dateTravel= false;
+          this.edit_seats= false;
+          this.edit_price= false;
+          this.getTravel();
+          alert("Succes");
+        })
+        .catch((error) => {
+          console.log("Error al editar el viaje", error);
+          alert("Error al editar el viaje");
+        });
+    },
+    deleteTravel:async function (idTravel) {
+      console.log(idTravel);
+      this.dataTravel.price= this.dataTravel.price.toString();
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation Mutation($idTravel: String!) {
+              deleteTravel(idTravel: $idTravel)
+            }
+          `,
+          variables: {
+            idTravel: idTravel,
+          },
+        })
+        .then((result) => {
+          this.edit_fromPlace= false;
+          this.edit_toPlace= false;
+          this.edit_passThrough= false;
+          this.edit_dateTravel= false;
+          this.edit_seats= false;
+          this.edit_price= false;
+          this.getTravel();
+          alert("Succes");
+        })
+        .catch((error) => {
+          console.log("Error al eliminar el viaje", error);
+          alert("Error al eliminar el viaje");
+        });
+    },
   },
   created: function () {
     this.getUser();
