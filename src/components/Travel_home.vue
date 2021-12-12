@@ -92,7 +92,7 @@ export default {
           console.log("Entro");
           console.log(result.data.getTravels);
           this.travels = result.data.getTravels;
-          
+          console.log(this.travels);
           this.formatDate(this.travels);
           // this.$emit("loadDetails");
         });

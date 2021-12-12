@@ -54,6 +54,10 @@
               <i class="fab fa-creative-commons-by"></i>
               Mis viajes
             </button>
+            <button v-if="is_auth" v-on:click="listReservations">
+              <i class="fab fa-creative-commons-by"></i>
+              Mis reservas
+            </button>
             <button v-if="is_auth" v-on:click="logout">
               <i class="fas fa-sign-out-alt"></i>
               Cerrar sesión</button>
@@ -67,6 +71,7 @@
         v-on:successRegister="loadLogin"
         v-on:successLogin="successLogin"
         v-on:loadDetails="loadDetails"
+        v-on:listReservations="listReservations"
         v-on:success="successAlert"
         v-on:fail="fail"
       >
@@ -117,6 +122,9 @@ export default {
     },
     loadDetails: function () {
       this.$router.push({ name: "travelDetails" });
+    },
+    listReservations: function () {
+      this.$router.push({ name: "myReservations" });
     },
     loadEditTravel: function () {
       if (this.is_auth) this.$router.push({ name: "editTravel" });

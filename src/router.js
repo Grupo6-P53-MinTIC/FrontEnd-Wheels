@@ -5,6 +5,7 @@ import editTravel from './components/Edit_travel.vue'
 import createTravel from './components/Create_travel.vue'
 import travels_home from './components/Travel_home.vue'
 import travelDetails from './components/Travel_details.vue'
+import myReservations from './components/List_Reservations.vue'
 
 const routes = [
   {
@@ -41,6 +42,12 @@ const routes = [
     path: '/users/register',
     name: 'register',
     component: register
+  },
+  
+  {
+    path: '/travels/my-reservations',
+    name: 'myReservations',
+    component: myReservations
   },
 ]
 
