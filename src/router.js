@@ -6,12 +6,18 @@ import editTravel from './components/Edit_travel.vue'
 import createTravel from './components/Create_travel.vue'
 import travels_home from './components/Travel_home.vue'
 import reservations from './components/Reservations.vue'
+import addCities from './components/addCities.vue'
 
 const routes = [
   {
     path: '/home',
     name: 'home',
     component: travels_home
+  },
+  {
+    path: '/cities/add',
+    name: 'addCities',
+    component: addCities
   },
   {
     path: '/travels/edit',

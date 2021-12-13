@@ -37,6 +37,10 @@
                 <td>{{ passenger.name }} {{ passenger.lastName }}</td>
               </tr>
               <tr>
+                <th scope="row">Fecha del viaje</th>
+                <td colspan="2">{{ reservation.dateTravel }}</td>
+              </tr>
+              <tr>
                 <th scope="row">Fecha de reserva</th>
                 <td colspan="2">{{ reservation.date }}</td>
               </tr>
@@ -48,7 +52,10 @@
           </table>
 
           <button
-            v-on:click="deleteReservation(reservation.idTravel, reservation.id)"
+            v-if="reservation.sowBtnDelete"
+            v-on:click="
+              deleteReservation(reservation.id)
+            "
             class="btn btn-danger w-100"
           >
             Cancelar Reserva
@@ -73,7 +80,6 @@ export default {
       passenger: {},
       driver: {},
       travel: {},
-      nowDate: new Date(),
     };
   },
   methods: {
@@ -84,32 +90,35 @@ export default {
       await this.$apollo
         .mutate({
           mutation: gql`
-            query GetReservationByIdPassenger($idPassenger: String!) {
-              getReservationByIdPassenger(idPassenger: $idPassenger) {
+            query Query {
+              getAllReservations {
                 id
                 idTravel
                 idDriver
                 idPassenger
                 toPlace
-                price
                 fromPlace
+                price
                 seats
                 state
+                dateTravel
                 date
               }
             }
           `,
-          variables: {
-            idPassenger: this.passenger.id.toString(),
-          },
+          variables: {},
         })
         .then((result) => {
-          this.reservations = result.data.getReservationByIdPassenger;
+          this.reservations = result.data.getAllReservations;
           this.formatDate(this.reservations);
-          this.deleteReservation(this.reservations);
+        })
+        .catch((error) => {
+          alert("Error al listar reservas");
+          log.error("Error: ", error);
         });
     },
     getPassenger: async function () {
+      let token = localStorage.getItem("token_access");
       await this.$apollo
         .mutate({
           mutation: gql`
@@ -130,8 +139,7 @@ export default {
             }
           `,
           variables: {
-            token:
-              "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjM5MzUyOTMyLCJqdGkiOiJlY2U5MzVkNDBmY2Y0NzAzOGJmMjE5ZDEzMmM0OTUxMSIsInVzZXJfaWQiOjJ9.bHdMdoYoyaScwibowW1JwnoqcWo_hFcb05W_2x2Bzes",
+            token,
           },
         })
         .then((result) => {
@@ -142,58 +150,36 @@ export default {
           alert("Error al solicitar informaciond del usuario");
         });
     },
-    deleteReservation: async function (date, id) {
+    deleteReservation: async function (id) {
+      console.log(id);
       await this.$apollo
         .mutate({
           mutation: gql`
-            query GetTravelById($getTravelByIdId: String!) {
-              getTravelById(id: $getTravelByIdId) {
-                idTravel
-                idDriver
-                nameDriver
-                fromPlace
-                toPlace
-                passThrough
-                published
-                price
-                dateTravel
-                seats
-              }
+            mutation Mutation($idReservation: String!) {
+              deleteReservation(idReservation: $idReservation)
             }
           `,
           variables: {
-            getTravelByIdId: date,
+            idReservation: id,
           },
         })
         .then((result) => {
-          var dateTravel = result.data.getTravelById.dateTravel;
-          var actualDate = new Date();
-          actualDate = moment(actualDate).format();
-          if (dateTravel > actualDate) {
-            this.$apollo
-              .mutate({
-                mutation: gql`
-                  mutation DeleteReservation($idReservation: String!) {
-                    deleteReservation(idReservation: $idReservation)
-                  }
-                `,
-                variables: {
-                  idReservation: id,
-                },
-              })
-              .then((result) => {
-                this.$emit("success", result);
-              });
-          } else {
-            alert("No es posible cancelar la reserva");
-          }
+          this.listReservations();
         });
-      
     },
     formatDate: function (reservations) {
       for (let i in reservations) {
+        let nowDate = moment(new Date()).format();
         var datereservation = new Date(reservations[i].date);
         datereservation = moment(datereservation).calendar();
+        var dateTravel = new Date(reservations[i].dateTravel);
+        dateTravel = moment(dateTravel).calendar();
+
+        if (dateTravel > nowDate) {
+          reservations[i].sowBtnDelete = true;
+        } else {
+          reservations[i].sowBtnDelete = false;
+        }
         this.reservations[i].date = datereservation;
       }
     },
