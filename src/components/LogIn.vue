@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-content-end me-lg-5 pe-lg-4 m-2">
+  <div class=" post-header row justify-content-end me-lg-5 pe-lg-4 m-2">
     <div class="col-lg-3  col-sm-6 col-md-4 mt-5 borderR bg-light bg-gradient bg-opacity-50">
       <h2 class="text-center"><b>Iniciar sesión</b></h2>
       <br>
@@ -35,6 +35,7 @@
           <button type="submit" class="btn btn-primary buttonR w-lg-50">
             Iniciar Sesión
           </button>
+            <div class="col-md-12 mt-2"> <a class="btn btn-lg btn-google btn-block btn-outline" href="#"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Iniciar sesión con Google</a> </div>
         </div>
       </form>
     </div>
@@ -48,8 +49,8 @@ export default {
   data: function () {
     return {
       user: {
-        username: "manuelFavian",
-        password: "pruebaPass1",
+        username: "",
+        password: "",
       },
       error: false,
     };
@@ -117,4 +118,11 @@ export default {
   border-radius: 10px;
   padding: 20px 10px;
 }
+
+.btn-google {
+    color: #545454;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px 1px #ddd
+}
+
 </style>

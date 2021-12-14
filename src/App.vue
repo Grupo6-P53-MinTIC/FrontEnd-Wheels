@@ -9,15 +9,10 @@
         aria-label="Close"
       ></button>
     </div>
-    <div class="floatIcon">
-      <a href=""></a>
-    </div>
     <nav
-      class="
-        navbar navbar-expand-lg navbar-light
-        bg-secondary bg-gradient bg-opacity-10">
+      class="navbar navbar-expand-lg navbar-light bg-white bg-gradient bg-opacity-25 my-header">
       <div class="container-fluid">
-        <a class="navbar-brand wheels fs-3" href="/">Wheels</a>
+        <a href="/"><img class="navbar-brand wheels" height="45"  src="images/wheels.svg" alt=""></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -31,7 +26,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+
           <div class="d-flex buttons">
+            <div  v-if="is_auth" class="capitalize me-3 h4"><b>{{user.name}} {{user.lastName}} </b> </div>
+            <button v-if="is_auth" v-on:click="verifyAuth">
+              <i class="fas fa-suitcase-rolling"></i>
+              Tablon de viajes
+            </button>
             <button v-if="!is_auth" v-on:click="verifyAuth">
               <i class="fas fa-sign-in-alt"></i>
               Iniciar sesión
@@ -40,15 +41,15 @@
               <i class="fas fa-pager"></i>
               Regístrate
             </button>
-            <button  v-on:click="loadAddCities" style="backgroundColor: yellow;">
+            <button v-if="false"   v-on:click="loadAddCities" style="backgroundColor: yellow;">
               <i class="fas fa-plus-square"></i>
               Agregar ciudades
             </button>
-            <button v-if="is_auth" v-on:click="loadCreateTravel"  >
+            <button v-if="is_auth && isDriver" v-on:click="loadCreateTravel"  >
               <i class="fas fa-plus-square"></i>
               Publicar viaje
             </button>
-            <button v-if="is_auth" v-on:click="loadEditTravel">
+            <button v-if="is_auth && isDriver" v-on:click="loadEditTravel">
               <i class="fab fa-creative-commons-by"></i>
               Mis viajes
             </button>
@@ -81,21 +82,60 @@
 </template>
 
 <script>
+import gql from "graphql-tag";
+
 export default {
   name: "App",
   data: function () {
     return {
       is_auth: false,
       success: false,
-      name_user: "",
       succesAlert: false,
       res: new Object(),
+      user :{},
+      isDriver: false,
     };
   },
   methods: {
+    getUser: async function () {
+      let token= localStorage.getItem('token_access');
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation Mutation($token: String!) {
+              getUserByToken(token: $token) {
+                id
+                username
+                password
+                email
+                name
+                lastName
+                birthDate
+                gender
+                documentNumber
+                phoneNumber
+                typeAccount
+              }
+            }
+          `,
+          variables: {
+            token,
+          },
+        })
+        .then((result) => {
+          this.user = result.data.getUserByToken[0];
+          console.log(this.user);
+          if(this.user.typeAccount == "D") this.isDriver=true;
+        })
+        .catch((error) => {
+          console.log("Error al solicitar informaciond del usuario", error);
+          alert("Error al solicitar informaciond del usuario");
+        });
+    },
     verifyAuth: function () {
       this.is_auth = localStorage.getItem("is_auth");
       if (this.is_auth) {
+        this.getUser();
         this.loadTravelHome();
       } else {
         this.loadLogin();
@@ -108,7 +148,6 @@ export default {
       this.success= true
       this.loadLogin();
     },
-    getUser: function () {},
     logout: function () {
       this.is_auth = false;
       localStorage.clear();
@@ -190,7 +229,7 @@ export default {
 
 .buttons button {
   padding: 5px;
-  background: rgba(230, 230, 230, 0.8);;
+  background: rgba(230, 230, 230, 0.5);;
   border: 1px solid rgba(0, 5, 70, 0.1);
   color: #000546;
   font-weight: bold;
@@ -198,5 +237,8 @@ export default {
   cursor: pointer;
   margin-right: 10px;
   border-radius: 3px;
+}
+.capitalize{
+  text-transform: capitalize;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="row bc_patron bg-light.bg-gradient">
+  <div class="row bc_patron bg-light.bg-gradient target">
     <div class="title">
       <h1><b>Tus reservas</b></h1>
     </div>
@@ -34,7 +34,7 @@
               </tr>
               <tr v-if="passenger">
                 <th scope="row">Pasajero</th>
-                <td>{{ passenger.name }} {{ passenger.lastName }}</td>
+                <td class="capitalize" >{{ passenger.name }} {{ passenger.lastName }}</td>
               </tr>
               <tr>
                 <th scope="row">Fecha del viaje</th>
@@ -46,7 +46,7 @@
               </tr>
               <tr>
                 <th scope="row">Precio</th>
-                <td colspan="2">{{ reservation.price }}</td>
+                <td colspan="2">COP ${{ reservation.price }}</td>
               </tr>
             </tbody>
           </table>
@@ -170,10 +170,12 @@ export default {
     formatDate: function (reservations) {
       for (let i in reservations) {
         let nowDate = moment(new Date()).format();
+
         var datereservation = new Date(reservations[i].date);
         datereservation = moment(datereservation).calendar();
+
         var dateTravel = new Date(reservations[i].dateTravel);
-        dateTravel = moment(dateTravel).calendar();
+        dateTravel = moment (dateTravel).calendar();
 
         if (dateTravel > nowDate) {
           reservations[i].sowBtnDelete = true;
@@ -181,6 +183,7 @@ export default {
           reservations[i].sowBtnDelete = false;
         }
         this.reservations[i].date = datereservation;
+        this.reservations[i].dateTravel = dateTravel;
       }
     },
   },
