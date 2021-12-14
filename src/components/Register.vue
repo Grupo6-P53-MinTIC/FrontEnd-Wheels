@@ -266,8 +266,7 @@ export default {
               },
             }
             ).then((result) => {
-              console.log(result)
-              this.$emit("success",result);
+              this.$emit("successRegister",result);
             })
             .catch((error) => {
               console.log(error);

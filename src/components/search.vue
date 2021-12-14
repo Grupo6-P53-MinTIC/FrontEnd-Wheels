@@ -1,40 +1,7 @@
 <template>
-<h6 class="text-center mb-4">bootstrap 4</h6>
-<section class="search-sec">
-    <div class="container w-75 w-sm-100">
-        <form action="#" method="post" novalidate="novalidate">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-12 p-0">
-                            <select class="form-control search-slt firstSelect">
-                                <option value="">Desde</option>
-                                  <option v-for="city in getAllCities" :value='city.nameCity'>{{city.nameCity}}</option>
-                            </select> 
-                        </div>
-                         <div class="col-lg-3 col-md-4 col-sm-12 p-0">
-                            <select class="form-control search-slt">
-                                <option value="">Hasta</option>
-                                  <option v-for="city in getAllCities" :value='city.nameCity'>{{city.nameCity}}</option>
-                            </select>
-                        </div>
-                          <div class="col-lg-3 col-md-2 col-sm-12 p-0">
-                            <div class="input-group mb-3 ">
-                                  <span class="input-group-text" id="basic-addon1">Asientos</span>
-                                  <input type="number" value="1" class="form-control search-slt">
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                            <button type="button" class="btn btn-primary wrn-btn  buttonR"><b>BUSCAR VIAJE</b></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</section>
   <div class="row bc_patron bg-light.bg-gradient">
     <div class="title">
+      <h1><b>Encuentra tu viaje</b></h1>
     </div>
     <div v-for="travel in travels" class="col-xl-3 col-md-4 col-sm-6 mt-2">
       <div class="card shadow-lg mb-5 bg-body rounded border-secondary">
@@ -282,23 +249,7 @@ export default {
       passenger: {},
       driver: {},
       seats: 1,
-      getAllCities: [],
     };
-  },
-  apollo:{
-    getAllCities: {
-      query: gql`
-        query Query {
-          getAllCities {
-            codeCity
-            nameCity
-          }
-        }
-      `,
-      variables(){
-        return {}
-      }
-    }
   },
   methods: {
     reservationDetail: function (travel) {
@@ -499,40 +450,5 @@ export default {
 <style>
 .title {
   text-align: right;
-}
-.search-slt{
-    display: block;
-    width: 100%;
-    font-size: 0.875rem;
-    line-height: 1.5;
-    color: #55595c;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-    height: calc(3rem + 2px) !important;
-    border-radius:0;
-}
-.wrn-btn{
-    width: 100%;
-    font-size: 16px;
-    font-weight: 400;
-    text-transform: uppercase;
-    height: calc(3rem + 2px) !important;
-    border-radius:0 50px 50px 0;
-}
-.firstSelect{
-    border-radius:50px 0 0 50px;
-    padding-left: 15px;
-}
-@media (max-width: 995px) {
-  .search-slt{
-    border-radius:10px;
-}
-  .firstSelect{
-    padding-left: 0;
-  }
-  .wrn-btn{
-    border-radius:10px;
-  }
 }
 </style>

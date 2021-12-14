@@ -25,7 +25,7 @@
         <div class="mb-3">
           <p class="text-center"><a href="">¿Olvidaste tu contraseña?</a></p>
           <p class="text-center mt-0" v-on:click="loadRegister">
-            <a href="">Regístrate</a>
+            <a href="/#/users/register">Regístrate</a>
           </p>
           <p v-if="error" class="errorMessage text-center">
             Usuario o contraseña incorrecta
@@ -48,8 +48,8 @@ export default {
   data: function () {
     return {
       user: {
-        username: "",
-        password: "",
+        username: "manuelFavian",
+        password: "pruebaPass1",
       },
       error: false,
     };

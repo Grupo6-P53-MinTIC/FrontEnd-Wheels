@@ -71,6 +71,7 @@
         v-on:loadDetails="loadDetails"
         v-on:listReservations="listReservations"
         v-on:success="successAlert"
+        v-on:successRegister="successRegister"
         v-on:loadReservations="loadReservations"
         v-on:fail="fail"
       >
@@ -102,6 +103,10 @@ export default {
     },
     successAlert: function(){
       this.success= true
+    },
+    successRegister: function(){
+      this.success= true
+      this.loadLogin();
     },
     getUser: function () {},
     logout: function () {
