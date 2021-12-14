@@ -1,5 +1,5 @@
 <template>
-<section class="search-sec mt-2">
+<section class="post-header">
     <div class="container w-75 w-sm-100">
         <form action="#" method="post" novalidate="novalidate">
             <div class="row">
@@ -35,7 +35,7 @@
   <div class="row bc_patron bg-light.bg-gradient">
     <div class="title">
     </div>
-    <div v-for="travel in travels" class="col-xl-4 col-md-4 col-sm-6 mt-2">
+    <div v-for="travel in travels" class="col-xl-4 col-md-4 col-sm-6">
       <div class="card shadow-lg mb-5 bg-body rounded border-secondary">
         <div class="card-header fs-5 text">
           COP <b> ${{ travel.price }}</b>

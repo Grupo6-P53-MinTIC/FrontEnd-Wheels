@@ -9,15 +9,10 @@
         aria-label="Close"
       ></button>
     </div>
-    <div class="floatIcon">
-      <a href=""></a>
-    </div>
     <nav
-      class="
-        navbar navbar-expand-lg navbar-light
-        bg-secondary bg-gradient bg-opacity-10">
+      class="navbar navbar-expand-lg navbar-light bg-white bg-gradient bg-opacity-75 my-header">
       <div class="container-fluid">
-        <a class="navbar-brand wheels fs-3" href="/">Wheels</a>
+        <a href="/"><img class="navbar-brand wheels" height="45"  src="images/wheels.svg" alt=""></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -31,9 +26,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
-              <div class="capitalize me-3 h4"><b>{{user.name}} {{user.lastName}} </b> </div>
 
           <div class="d-flex buttons">
+            <div  v-if="is_auth" class="capitalize me-3 h4"><b>{{user.name}} {{user.lastName}} </b> </div>
+            <button v-if="is_auth" v-on:click="verifyAuth">
+              <i class="fas fa-suitcase-rolling"></i>
+              Tablon de viajes
+            </button>
             <button v-if="!is_auth" v-on:click="verifyAuth">
               <i class="fas fa-sign-in-alt"></i>
               Iniciar sesión
@@ -136,6 +135,7 @@ export default {
     verifyAuth: function () {
       this.is_auth = localStorage.getItem("is_auth");
       if (this.is_auth) {
+        this.getUser();
         this.loadTravelHome();
       } else {
         this.loadLogin();
@@ -210,7 +210,6 @@ export default {
   },
   created: function () {
     this.verifyAuth();
-    this.getUser();
   },
 };
 </script>
@@ -230,7 +229,7 @@ export default {
 
 .buttons button {
   padding: 5px;
-  background: rgba(230, 230, 230, 0.8);;
+  background: rgba(230, 230, 230, 0.5);;
   border: 1px solid rgba(0, 5, 70, 0.1);
   color: #000546;
   font-weight: bold;

@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-content-end me-lg-5 pe-lg-4 m-2">
+  <div class=" post-header row justify-content-end me-lg-5 pe-lg-4 m-2">
     <div class="col-lg-3  col-sm-6 col-md-4 mt-5 borderR bg-light bg-gradient bg-opacity-50">
       <h2 class="text-center"><b>Iniciar sesión</b></h2>
       <br>
@@ -35,6 +35,16 @@
           <button type="submit" class="btn btn-primary buttonR w-lg-50">
             Iniciar Sesión
           </button>
+            <div class="d-grid m-2">
+                <button class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
+                  <i class="fab fa-google me-2"></i> Iniciar sesion con  Google
+                </button>
+              </div>
+              <div class="d-grid m-2">
+                <button class="btn btn-facebook btn-login text-uppercase fw-bold" type="submit">
+                  <i class="fab fa-facebook-f me-2"></i> Iniciar sesion con Facebook
+                </button>
+            </div>
         </div>
       </form>
     </div>
@@ -48,8 +58,8 @@ export default {
   data: function () {
     return {
       user: {
-        username: "manuelFavian",
-        password: "pruebaPass1",
+        username: "",
+        password: "",
       },
       error: false,
     };
@@ -116,5 +126,21 @@ export default {
   border: 1px solid rgba(0, 5, 70, 0.2);
   border-radius: 10px;
   padding: 20px 10px;
+}
+
+.btn-login {
+  font-size: 0.7rem;
+  letter-spacing: 0.04rem;
+  padding: 0.5rem 1rem;
+}
+
+.btn-google {
+  color: white !important;
+  background-color: #ea4335;
+}
+
+.btn-facebook {
+  color: white !important;
+  background-color: #3b5998;
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
-  <div class="row justify-content-end me-lg-5 pe-lg-4 m-2">
+  <div class="post-header row justify-content-end me-lg-5 pe-lg-4 m-2">
     <div class="col-lg-4 col-sm-6 borderR bg-light bg-gradient bg-opacity-50">
       <h2 class="text-center"><b>Registrate</b></h2>
       <br />
-      <form v-on:submit.prevent="registerUser" class="">
+      <form v-on:submit.prevent="registerUser" class="text-center">
         <div class="mb-3">
           <input class="inputR" 
           v-model="user.email"
@@ -70,7 +70,7 @@
             required="true"
           />
         </div>
-        <select v-model="user.gender" class="form-control" id="GenderInput">
+        <select v-model="user.gender" class="form-control w-75 m-2" id="GenderInput">
           <option value="">genero</option>
           <option value="M">Maculino</option>
           <option value="F">Femenino</option>
