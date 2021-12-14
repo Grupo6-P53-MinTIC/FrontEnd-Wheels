@@ -21,7 +21,7 @@
               <th scope="row">Codigo</th>
               <td>
                 <input
-                  :value="city.codeCity"
+                  v-model="code"
                   type="text"
                   class="form-control"
                   required="true"
@@ -32,7 +32,7 @@
               <th scope="row">Nombre</th>
               <td>
                 <input
-                  :value="city.nameCity"
+                  v-model="name"
                   type="text"
                   class="form-control"
                   required="true"
@@ -42,7 +42,7 @@
           </tbody>
         </table>
         <div class="text-center">
-          <button class="btn btn-primary buttonR w-100" type="submit">
+          <button class="btn btn-primary buttonR w-100" type="submit"  >
             <b>Agregar ciudad a la base de datos</b>
           </button>
         </div>
@@ -68,9 +68,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="city in cities">
-              <th>{{city.codeCity}}</th>
-              <td>{{city.nameCity}} </td>
+            <tr v-for="myCity in cities">
+              <th>{{myCity.codeCity}}</th>
+              <td>{{myCity.nameCity}} </td>
             </tr>
           </tbody>
         </table>
@@ -85,15 +85,16 @@ export default {
   name: "addCities",
   data: function () {
     return {
-      city: {
-        nameCity: "",
-        codeCity: "",
-      },
+      name: "",
+      code: "",
       cities:[]
     };
   },
   methods: {
     addCity: async function () {
+      let city={};
+      city.nameCity= this.name;
+      city.codeCity= this.code;
       await this.$apollo
         .mutate({
           mutation: gql`
@@ -105,10 +106,11 @@ export default {
             }
           `,
           variables: {
-            city: this.city,
+            city
           },
         })
         .then((result) => {
+          this.getCities();
           this.$emit("success", result);
         })
         .catch((error) => {
