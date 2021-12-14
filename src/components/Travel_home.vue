@@ -1,6 +1,5 @@
 <template>
-<h6 class="text-center mb-4">bootstrap 4</h6>
-<section class="search-sec">
+<section class="search-sec mt-2">
     <div class="container w-75 w-sm-100">
         <form action="#" method="post" novalidate="novalidate">
             <div class="row">
@@ -36,7 +35,7 @@
   <div class="row bc_patron bg-light.bg-gradient">
     <div class="title">
     </div>
-    <div v-for="travel in travels" class="col-xl-3 col-md-4 col-sm-6 mt-2">
+    <div v-for="travel in travels" class="col-xl-4 col-md-4 col-sm-6 mt-2">
       <div class="card shadow-lg mb-5 bg-body rounded border-secondary">
         <div class="card-header fs-5 text">
           COP <b> ${{ travel.price }}</b>
@@ -59,15 +58,15 @@
                 <td>{{ travel.passThrough }}</td>
               </tr>
               <tr>
-                <th scope="row">Asientos</th>
+                <th scope="row">Asientos disponibles</th>
                 <td>{{ travel.seats }}</td>
               </tr>
               <tr>
                 <th scope="row">Conductor</th>
-                <td>{{ travel.nameDriver }}</td>
+                <td class="capitalize">{{ travel.nameDriver }}</td>
               </tr>
               <tr>
-                <th scope="row">Cuando?</th>
+                <th scope="row">Fecha del viaje</th>
                 <td colspan="2">{{ travel.dateTravel }}</td>
               </tr>
             </tbody>
