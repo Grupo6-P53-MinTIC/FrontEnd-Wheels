@@ -35,16 +35,7 @@
           <button type="submit" class="btn btn-primary buttonR w-lg-50">
             Iniciar Sesión
           </button>
-            <div class="d-grid m-2">
-                <button class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
-                  <i class="fab fa-google me-2"></i> Iniciar sesion con  Google
-                </button>
-              </div>
-              <div class="d-grid m-2">
-                <button class="btn btn-facebook btn-login text-uppercase fw-bold" type="submit">
-                  <i class="fab fa-facebook-f me-2"></i> Iniciar sesion con Facebook
-                </button>
-            </div>
+            <div class="col-md-12 mt-2"> <a class="btn btn-lg btn-google btn-block btn-outline" href="#"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Iniciar sesión con Google</a> </div>
         </div>
       </form>
     </div>
@@ -128,19 +119,10 @@ export default {
   padding: 20px 10px;
 }
 
-.btn-login {
-  font-size: 0.7rem;
-  letter-spacing: 0.04rem;
-  padding: 0.5rem 1rem;
-}
-
 .btn-google {
-  color: white !important;
-  background-color: #ea4335;
+    color: #545454;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px 1px #ddd
 }
 
-.btn-facebook {
-  color: white !important;
-  background-color: #3b5998;
-}
 </style>

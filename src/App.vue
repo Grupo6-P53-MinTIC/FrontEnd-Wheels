@@ -10,7 +10,7 @@
       ></button>
     </div>
     <nav
-      class="navbar navbar-expand-lg navbar-light bg-white bg-gradient bg-opacity-75 my-header">
+      class="navbar navbar-expand-lg navbar-light bg-white bg-gradient bg-opacity-25 my-header">
       <div class="container-fluid">
         <a href="/"><img class="navbar-brand wheels" height="45"  src="images/wheels.svg" alt=""></a>
         <button
