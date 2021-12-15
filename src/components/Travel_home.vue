@@ -349,8 +349,7 @@ export default {
               }
             `,
             variables: {
-              // "idDriver": parseInt(travels[i].idDriver)
-              idDriver: 47,
+              "idDriver": parseInt(travels[i].idDriver)
             },
           })
           .then((result) => {
@@ -455,7 +454,6 @@ export default {
       this.reservation.seats = this.seats;
       this.reservation.dateTravel = travel.dateTravelNoFormat;
 
-      console.log(this.reservation);
       await this.$apollo
         .mutate({
           mutation: gql`
