@@ -124,7 +124,6 @@ export default {
         })
         .then((result) => {
           this.user = result.data.getUserByToken[0];
-          console.log(this.user);
           if(this.user.typeAccount == "D") this.isDriver=true;
         })
         .catch((error) => {
