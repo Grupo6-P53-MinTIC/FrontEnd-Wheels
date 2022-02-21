@@ -62,7 +62,7 @@
               Cerrar sesión
             </button>
             <button v-on:click="loadAddCities" style="background-color: red;" >
-              Publicar Ciudades
+              Agregar Ciudades a la base de datos
             </button>
           </div>
         </div>
