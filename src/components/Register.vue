@@ -157,9 +157,6 @@
         </div>
 
         <div class="mb-3">
-          <p class="text-center mt-0" v-on:click="loadLogin">
-            <a href="">Registrate</a>
-          </p>
           <p v-if="error" class="errorMessage text-center">
             Credenciales no validas  
           </p>
@@ -267,6 +264,7 @@ export default {
             }
             ).then((result) => {
               this.$emit("successRegister",result);
+              this.$emit(loadLogin);
             })
             .catch((error) => {
               console.log(error);

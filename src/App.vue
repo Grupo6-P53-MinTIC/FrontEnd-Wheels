@@ -59,7 +59,11 @@
             </button>
             <button v-if="is_auth" v-on:click="logout">
               <i class="fas fa-sign-out-alt"></i>
-              Cerrar sesión</button>
+              Cerrar sesión
+            </button>
+            <button v-on:click="loadAddCities" style="background-color: red;" >
+              Publicar Ciudades
+            </button>
           </div>
         </div>
       </div>
@@ -67,6 +71,7 @@
     <div class="main-component bc">
       <router-view
         v-on:loadRegister="loadRegister"
+        v-on:loadLogin="loadLogin"
         v-on:compleatedLogIn="compleatedLogIn"
         v-on:successLogin="successLogin"
         v-on:loadDetails="loadDetails"
@@ -74,6 +79,7 @@
         v-on:success="successAlert"
         v-on:successRegister="successRegister"
         v-on:loadReservations="loadReservations"
+        v-on:loadAddCities="loadAddCities"
         v-on:fail="fail"
       >
       </router-view>
