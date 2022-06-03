@@ -61,7 +61,7 @@
               <i class="fas fa-sign-out-alt"></i>
               Cerrar sesión
             </button>
-            <button v-on:click="loadAddCities" style="background-color: red;" >
+            <button v-on:click="loadAddCities" style="background-color: red; display: none;" >
               Agregar Ciudades a la base de datos
             </button>
           </div>
@@ -133,7 +133,7 @@ export default {
           if(this.user.typeAccount == "D") this.isDriver=true;
         })
         .catch((error) => {
-          console.log("Error al solicitar informaciond del usuario", error);
+          console.log("Error al solicitar informacion del usuario", error);
           alert("Error al solicitar informaciond del usuario");
         });
     },

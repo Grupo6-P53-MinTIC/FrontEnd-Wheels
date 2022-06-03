@@ -479,12 +479,38 @@ export default {
         })
         .then((result) => {
           this.listTravels();
+          this.createChat(this.reservation)
           this.$emit("success", result);
         })
         .catch((error) => {
           console.log("Error al generar la reserva", error);
           alert("Error al generar la reserva");
         });
+
+      
+    },
+    createChat: async function (dataTravel) {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      var raw = JSON.stringify({
+        travel_id: dataTravel.idTravel,
+        name: `${dataTravel.fromPlace} | ${dataTravel.toPlace}`,
+        type: "only",
+      });
+      console.log(dataTravel);
+
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      fetch("http://localhost:3000/createChat", requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.log("error", error));
     },
   },
   created: function () {

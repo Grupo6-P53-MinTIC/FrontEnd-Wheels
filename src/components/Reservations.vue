@@ -3,10 +3,7 @@
     <div class="title">
       <h1><b>Tus reservas</b></h1>
     </div>
-    <div
-      v-for="reservation in reservations"
-      class="col-xl-4 col-md-6 col-sm-12 mt-2"
-    >
+    <div v-for="reservation in reservations" class="col-xl-4 col-md-6 col-sm-12 mt-2">
       <div class="card shadow-lg p-3 mb-5 bg-body rounded border-dark">
         <div class="card-header fs-6 text">
           Estado <b> {{ reservation.state }}</b> <br />
@@ -34,7 +31,9 @@
               </tr>
               <tr v-if="passenger">
                 <th scope="row">Pasajero</th>
-                <td class="capitalize" >{{ passenger.name }} {{ passenger.lastName }}</td>
+                <td class="capitalize">
+                  {{ passenger.name }} {{ passenger.lastName }}
+                </td>
               </tr>
               <tr>
                 <th scope="row">Fecha del viaje</th>
@@ -51,13 +50,17 @@
             </tbody>
           </table>
 
+          <div class="text-center d-flex justify-content-center">
+            <button  v-on:click="loadChat(reservation.idTravel)"
+            class="btn btn-primary mb-2 w-100">
+              <b> Chat </b>
+             <i class="fa-solid fa-comment text-white"></i>
+          </button>
+          </div>
           <button
             v-if="reservation.sowBtnDelete"
-            v-on:click="
-              deleteReservation(reservation.id)
-            "
-            class="btn btn-danger w-100"
-          >
+            v-on:click="deleteReservation(reservation.id)"
+            class="btn btn-danger w-100">
             Cancelar Reserva
           </button>
         </div>
@@ -85,6 +88,10 @@ export default {
   methods: {
     succes: function () {
       this.$emit("success");
+    },
+    loadChat: function (data) {
+      this.$router.push({ name: "chat", params: { idTravel: data } });
+      console.log(data);
     },
     listReservations: async function () {
       await this.$apollo
@@ -175,7 +182,7 @@ export default {
         datereservation = moment(datereservation).calendar();
 
         var dateTravel = new Date(reservations[i].dateTravel);
-        dateTravel = moment (dateTravel).calendar();
+        dateTravel = moment(dateTravel).calendar();
 
         if (dateTravel > nowDate) {
           reservations[i].sowBtnDelete = true;

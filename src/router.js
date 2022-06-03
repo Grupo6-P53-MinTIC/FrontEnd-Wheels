@@ -7,6 +7,7 @@ import createTravel from './components/Create_travel.vue'
 import travels_home from './components/Travel_home.vue'
 import reservations from './components/Reservations.vue'
 import addCities from './components/addCities.vue'
+import chat from './components/chat.vue'
 
 const routes = [
   {
@@ -28,6 +29,11 @@ const routes = [
     path: '/travels/reservations',
     name: 'reservations',
     component: reservations
+  },
+  {
+    path: '/travels/reservations/chat:idTravel?',
+    name: 'chat',
+    component: chat
   },
   {
     path: '/travels/create',
